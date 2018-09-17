@@ -2,22 +2,8 @@
 #define CS205_GOFISH_GOFISH_H
 
 #include <vector>
+#include "Card.h"
 using namespace std;
-
-enum Suit {H,D,C,S};
-
-class Card {
-    private:
-        int rank;
-        Suit suit;
-    public:
-        Card();
-        Card(int r, Suit s);
-
-        int getRank() const;
-
-        Suit getSuit() const;
-};
 
 class Deck {
     private:
