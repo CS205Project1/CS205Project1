@@ -1,4 +1,4 @@
-#include "GoFish.h"
+#include "Deck.h"
 #include <iostream>
 using namespace std;
 
@@ -20,6 +20,9 @@ Deck::Deck(vector<Card> deck){
 
 };
 
+void Deck::shuffle(){
+
+};
 
 void Deck::draw(){
 

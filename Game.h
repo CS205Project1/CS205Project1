@@ -10,7 +10,7 @@ class Game {
 private:
     Hand computerHand;
 public:
-    Deck d;
+
     int userScore;
     int computerScore;
     void newGame();

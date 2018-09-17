@@ -5,8 +5,7 @@
 #include "Game.h"
 
 void Game::newGame() {
-    d = new Deck();
-    d.shuffle();
+
     userScore = 0;
     computerScore = 0;
 

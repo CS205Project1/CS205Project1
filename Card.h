@@ -2,7 +2,8 @@
 #define PROJECT_CARD_H
 
 enum Suit {
-    Spades, Hearts, Clubs, Diamonds
+    //Spades, Hearts, Clubs, Diamonds
+    S,H,C,D
 };
 
 class Card {
