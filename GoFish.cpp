@@ -1,0 +1,41 @@
+#include "GoFish.h"
+#include <iostream>
+using namespace std;
+
+Card::Card() = default;
+Card::Card(int r, Suit s) {
+    rank = r;
+    suit = s;
+};
+
+int Card::getRank() const{
+    return rank;
+};
+
+Suit Card::getSuit() const{
+    return suit;
+};
+
+Deck::Deck() = default;
+
+ostream & operator<<(ostream & out, const Card & c) {
+    out << c << endl;
+}
+
+Deck::Deck(vector<Card> deck){
+
+    for (int j=1; j<14; j++) {
+        for (int i=0; i<4; i++) {
+            Suit suit = static_cast<Suit>(i);
+            deck.emplace_back(Card(j,suit));
+        }
+    }
+
+
+};
+
+
+void Deck::draw(){
+
+};
+
