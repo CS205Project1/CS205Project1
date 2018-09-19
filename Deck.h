@@ -13,7 +13,7 @@ class Deck {
         Deck(vector<Card> deck);
 
         void draw();
-        void shuffle();
+        void shuffleDeck();
 
 };
 

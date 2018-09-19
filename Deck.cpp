@@ -1,5 +1,7 @@
 #include "Deck.h"
 #include <iostream>
+#include <algorithm>
+#include <random>
 using namespace std;
 
 Deck::Deck() = default;
@@ -20,8 +22,10 @@ Deck::Deck(vector<Card> deck){
 
 };
 
-void Deck::shuffle(){
-
+void Deck::shuffleDeck(){
+    random_device rd;
+    mt19937 g(rd());
+    shuffle(deck.begin(), deck.end(), g);
 };
 
 void Deck::draw(){
