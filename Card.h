@@ -1,21 +1,27 @@
 #ifndef PROJECT_CARD_H
 #define PROJECT_CARD_H
 
-enum Suit {
-    //Spades, Hearts, Clubs, Diamonds
-    S,H,C,D
-};
+#include <iostream>
+#include <algorithm>
+#include <random>
+#include <vector>
+using namespace std;
 
 class Card {
 private:
     int rank;
-    Suit suit;
+    char suit;
 public:
-    Card(int r, Suit s);
+    //default constructors
+    Card();
+    Card(int r, char s);
 
+    //Getters
     int getRank() const;
+    char getSuit() const;
 
-    Suit getSuit() const;
+    //Overloading operator
+    friend ostream& operator << (ostream& outs, const Card &c);
 };
 
 
