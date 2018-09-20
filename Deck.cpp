@@ -26,27 +26,6 @@ void Deck::shuffleDeck(){
     shuffle(deck.begin(), deck.end(), g);
 };
 
-void Deck::drawCard(){
-
-    //Removing card from top of the deck after it's been drawn by player
-    removeCardFromDeck(1);
-};
-
-void Deck::removeCardFromDeck(int numberOfCardsToBeRemoved){
-    // I have two sets of code here, the fisrt one removes the card from the end of the deck and a second of from the beginning
-    // I have them both here because we'll need to decide on one and stick with it.
-
-    //Remove card from back of the deck
-//    int count = 0;
-//    while (count < numberOfCardsToBeRemoved) {
-//        deck.pop_back();
-//        count++;
-//    }
-
-    //Removes cards from the beginning of vector
-    auto it = next(deck.begin(), numberOfCardsToBeRemoved);
-    deck.erase(deck.begin(), it);
-};
 void Deck::printDeck() {
     for(int i = 0; i < deck.size(); i++){
         cout << i+1 << ". " << deck[i] << endl;
@@ -99,6 +78,18 @@ void Hand::dealCards(int numOfCards){
 
 };
 
+void Hand::drawCard(int playerNum){
+    auto it = next(deck.begin(), 1);
+    if(playerNum == 1){
+        move(deck.begin(), it, back_inserter(playerHand));
+        deck.erase(deck.begin(), it);
+    }else if (playerNum == 2){
+        move(deck.begin(), it, back_inserter(computerHand));
+        deck.erase(deck.begin(), it);
+    }else{
+        cout << "CARD NOT DRAWN! For drawCard please specify 1 or 2 (1 = user player. 2 = computer player)" << endl;
+    }
+};
 
 void Hand::printHands(){
     cout<< "-------------------" << endl;

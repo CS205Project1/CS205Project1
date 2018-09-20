@@ -22,12 +22,8 @@ public:
     int getNumOfCardsDealt() const;
     void setNumOfCardsDealt(int numOfCardsDealt);
 
-    //Draws card from the top of the deck
-    void drawCard();
     //Suffles the deck
     void shuffleDeck();
-    //removes card from the deck
-    void removeCardFromDeck(int numberOfCardsToBeRemoved);
     //Prints the deck. Main use for testing
     void printDeck();
 
@@ -52,6 +48,9 @@ public:
 
     //This function does the following; Shuffle deck, then deal the number of cards specified to playerHand and computerHand, then remove them from the deck.
     void dealCards(int numOfCards);
+
+    //Draws card from the top of the deck and removes it from the deck and adds it to the player or computer hand
+    void drawCard(int playerNum); // 1 = Real Player, 2 = computer player
 
     //Prints the hand for testing purposes
     void printHands();
