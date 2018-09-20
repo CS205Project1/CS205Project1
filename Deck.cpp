@@ -91,16 +91,73 @@ void Hand::drawCard(int playerNum){
     }
 };
 
-void Hand::printHands(){
-    cout<< "-------------------" << endl;
-    cout << "Player Hand"<<endl;
-    for(int i = 0; i < playerHand.size(); i++){
-        cout << i+1 << ". " << playerHand[i] << endl;
-    };
-    cout<< "-------------------" << endl;
-    cout << "Computer Hand"<<endl;
-    for(int i = 0; i < computerHand.size(); i++){
-        cout << i+1 << ". " << computerHand[i] << endl;
-    };
-    cout<< "-------------------" << endl;
+void Hand::printHands(int playerNum){
+    if(playerNum == 1) {
+        cout << "******************************** Player Hand  **********************************" << endl;
+        for (int i = 0; i < playerHand.size(); i++) {
+            cout << " -----   ";
+        };
+        cout << endl;
+        for (int i = 0; i < playerHand.size(); i++) {
+            cout << "|     |  ";
+        };
+        cout << endl;
+
+        for (int i = 0; i < playerHand.size(); i++) {
+            cout << "| " << playerHand[i] << "  |  ";
+        };
+        cout << endl;
+        for (int i = 0; i < playerHand.size(); i++) {
+            cout << "|     |  ";
+        };
+        cout << endl;
+        for (int i = 0; i < playerHand.size(); i++) {
+            cout << " -----   ";
+        };
+        cout << endl;
+        for (int i = 0; i < playerHand.size(); i++) {
+            if((i+1) < 10) {
+                cout << "   " << i + 1 << "     ";
+            }else{
+                cout << "   " << i + 1 << "    ";
+            }
+        };
+        cout << endl;
+
+    }else if (playerNum == 2) {
+        cout << "******************************  Computer Hand  *******************************" << endl;
+        for (int i = 0; i < computerHand.size(); i++) {
+            cout << " -----   ";
+        };
+        cout << endl;
+        for (int i = 0; i < computerHand.size(); i++) {
+            cout << "|     |  ";
+        };
+        cout << endl;
+
+        for (int i = 0; i < computerHand.size(); i++) {
+            cout << "| " << computerHand[i] << "  |  ";
+        };
+        cout << endl;
+        for (int i = 0; i < computerHand.size(); i++) {
+            cout << "|     |  ";
+        };
+        cout << endl;
+        for (int i = 0; i < computerHand.size(); i++) {
+            cout << " -----   ";
+        };
+        cout << endl;
+        for (int i = 0; i < computerHand.size(); i++) {
+            if((i+1) < 10) {
+                cout << "   " << i + 1 << "     ";
+            }else{
+                cout << "   " << i + 1 << "    ";
+            }
+        };
+        cout << endl;
+
+    }else{
+        cout << "CAN'T DISPLAY PLAYER HAND! For printHand(int playerHand) please specify 1 or 2 (1 = user player. 2 = computer player)" << endl;
+    }
+
 };

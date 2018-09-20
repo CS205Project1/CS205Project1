@@ -52,8 +52,8 @@ public:
     //Draws card from the top of the deck and removes it from the deck and adds it to the player or computer hand
     void drawCard(int playerNum); // 1 = Real Player, 2 = computer player
 
-    //Prints the hand for testing purposes
-    void printHands();
+    //Prints the hand. Made it print them out fancy
+    void printHands(int playerNum);
 };
 
 

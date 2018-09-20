@@ -6,17 +6,30 @@
 #define UNTITLED_GAME_H
 
 
-class Game {
+#include "Deck.h"
+
+class Game : public Hand {
 private:
-    Hand computerHand;
+    int userScore = 0;
+    int computerScore = 0;
 public:
+    //Default constructors
+    Game();
+    Game(int userScore, int computerScore);
 
-    int userScore;
-    int computerScore;
-    void newGame();
+    //Getters
+    int getUserScore() const;
+    int getComputerScore() const;
+    //Setters
+    void setUserScore(int userScore);
+    void setComputerScore(int computerScore);
 
-    void getHand();
+    //Suppose to check if there is a book in hand
+    void checkForBook();
+
+    void gameLogic();
+    void recordGuess(int guess, int playerNum);
+
 };
-
 
 #endif //UNTITLED_GAME_H
