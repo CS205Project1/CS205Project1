@@ -5,17 +5,9 @@
  *      Author: sydin
  */
 #include "Player.h"
-using namespace std;
 
-class player {
-	bool askForCard(Card c) {
+bool askForCard(Card c);
 
-	}
-
-	bool askedForCard(Card c){
-
-	}
-};
-
+bool askedForCard(Card c);
 
 

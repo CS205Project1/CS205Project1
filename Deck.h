@@ -4,6 +4,7 @@
 #include <vector>
 #include <utility>
 #include <iostream>
+#include <iomanip>
 #include <algorithm>
 #include <random>
 #include "Card.h"

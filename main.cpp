@@ -1,7 +1,46 @@
 #include <iostream>
 
+#include "Card.h"
+#include "Deck.h"
+#include "Game.h"
+Deck d;
+Hand h;
+Game g;
 int main() {
+    Deck(); //construct the deck
 
+    /**
+     * The code below is mainly for testing the methods
+     */
+//    d.printDeck(); //print the deck
+//    cout<< "-------------------" << endl;
+//    d.shuffleDeck(); //this will shuffle the deck, but it's not necessary to use outside of testing
+//    cout<< "-------------------" << endl;
+//    d.printDeck(); //again mainly for testing purposes
+//    cout<< "-------------------" << endl;
+    h.dealCards(7); //When this is called it will shuffle the cards. Deal the cards. And print them, but that can be changed when needed
+//    h.drawCard(1); //this will draw a card. use the parameter 1 to draw card for human player and user 2 to draw card for computer
+//    h.printHands(1); //1 = print hand for human player
+//    h.printHands(2); // 2 = print hand for computer player
+//    h.printDeck();    //this will print the deck after the cards have been dealt and removed from the deck.
+
+    /**
+     * Working on the method below. The problem I am encountering is the vectors for playerHand and computerHand are empty
+     * even after the cards have been dealt. Now it is populated when you print it in by calling h.pringHands(), but it's empty
+     * when you use the printHands function in the checkForBook() function. I feel like I am missing a very simple point there,
+     * so some help would be cool.
+     */
+//    g.checkForBook();
+//
+//
+
+
+
+
+
+
+
+/*
     //Prompt to Choose Mode - While (not quit)
     std::string modeChoice;
     std::cout << " --- Welcome to Go Fish ---" << std::endl;
@@ -70,7 +109,7 @@ int main() {
     return 0;
 }
 
-/*
+
 
  Prompt to Choose Mode
  While (not quit){
@@ -131,3 +170,4 @@ int main() {
 
 //Students play until the deck is empty, and all students have emptied their hands.
 */
+}

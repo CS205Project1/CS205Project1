@@ -73,8 +73,9 @@ void Hand::dealCards(int numOfCards){
     deck.erase(deck.begin(), it);
 
     //Printing hand, then deck for testing purposes.
-    printHands();
-    printDeck();
+    printHands(1);
+    printHands(2);
+    //printDeck();
 
 };
 
@@ -104,7 +105,11 @@ void Hand::printHands(int playerNum){
         cout << endl;
 
         for (int i = 0; i < playerHand.size(); i++) {
-            cout << "| " << playerHand[i] << "  |  ";
+            if(playerHand[i].getRank() < 10) {
+                cout << "| "  << playerHand[i]  << "  |  ";
+            }else{
+                cout << "| " << playerHand[i] << " |  ";
+            };
         };
         cout << endl;
         for (int i = 0; i < playerHand.size(); i++) {
@@ -136,7 +141,11 @@ void Hand::printHands(int playerNum){
         cout << endl;
 
         for (int i = 0; i < computerHand.size(); i++) {
-            cout << "| " << computerHand[i] << "  |  ";
+            if(computerHand[i].getRank() < 10) {
+                cout << "| "  << computerHand[i]  << "  |  ";
+            }else{
+                cout << "| " << computerHand[i] << " |  ";
+            };
         };
         cout << endl;
         for (int i = 0; i < computerHand.size(); i++) {

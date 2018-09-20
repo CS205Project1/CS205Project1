@@ -1,5 +1,13 @@
-#include "Player.cpp"
 
-bool askForCard(card c);
+#include "Card.h"
+using namespace std;
 
-bool askedForCard(card c);
+class player {
+    bool askForCard(Card c) {
+
+    };
+
+    bool askedForCard(Card c){
+
+    };
+};
