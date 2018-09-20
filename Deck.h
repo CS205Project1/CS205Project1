@@ -26,8 +26,7 @@ public:
     void drawCard();
     //Suffles the deck
     void shuffleDeck();
-    //Deals cards to each player
-    void dealCards();
+    //removes card from the deck
     void removeCardFromDeck(int numberOfCardsToBeRemoved);
     //Prints the deck. Main use for testing
     void printDeck();
@@ -48,12 +47,15 @@ public:
     const vector<Card> &getComputerHand() const;
 
     //Setters
-    void setPlayerHand(vector<Card> &playerHand, int numOfCards);
-    void setComputerHand(vector<Card> &computerHand, int numOfCards);
+    void setPlayerHand(vector<Card> &playerHand);
+    void setComputerHand(vector<Card> &computerHand);
 
+    //This function does the following; Shuffle deck, then deal the number of cards specified to playerHand and computerHand, then remove them from the deck.
+    void dealCards(int numOfCards);
+
+    //Prints the hand for testing purposes
     void printHands();
 };
-
 
 
 #endif //CS205_GOFISH_GOFISH_H
