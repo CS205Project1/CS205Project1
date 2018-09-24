@@ -6,6 +6,7 @@ Game::Game() {
     userScore = 0;
     computerScore = 0;
     deck = Deck();
+    deck.shuffleDeck();
     dealCards(7);
 }
 
@@ -90,10 +91,10 @@ void Game::printHand(int playerNum){
         cout << endl;
 
         for (int i = 0; i < userHand.size(); i++) {
-            if(userHand[i].getRank() < 10) {
-                cout << "| "  << userHand[i]  << "  |  ";
+            if(userHand[i].getRank() != 10) {
+                cout << "| "  << userHand[i].getRankString() << userHand[i].getSuitString()  << "  |  ";
             }else{
-                cout << "| " << userHand[i] << " |  ";
+                cout << "| " << userHand[i].getRankString() << userHand[i].getSuitString() << " |  ";
             };
         };
         cout << endl;
@@ -126,10 +127,10 @@ void Game::printHand(int playerNum){
         cout << endl;
 
         for (int i = 0; i < computerHand.size(); i++) {
-            if(computerHand[i].getRank() < 10) {
-                cout << "| "  << computerHand[i]  << "  |  ";
+            if(computerHand[i].getRank() != 10) {
+                cout << "| "  << computerHand[i].getRankString() << computerHand[i].getSuitString()  << "  |  ";
             }else{
-                cout << "| " << computerHand[i] << " |  ";
+                cout << "| " << computerHand[i].getRankString() << computerHand[i].getSuitString() << " |  ";
             };
         };
         cout << endl;
@@ -156,6 +157,7 @@ void Game::printHand(int playerNum){
 
 }
 
+//I WILL FIX IT TO CHECK FOR A VALID RESPONSE
 bool Game::inHandCheck(string userInput){
     bool returnValue = false; //0 - Not found
     for(int i = 0; i < userHand.size(); i++){
@@ -174,6 +176,27 @@ bool Game::askComputer(string response){
         }
     }
     return returnValue;
+}
+
+void Game::takeCards(string card, int playerNum){
+    if(playerNum == 1){
+        //Player takes from computer
+        for(int i = 0; i < computerHand.size(); i++){
+            if(computerHand[i].getName() == card){
+                userHand.push_back(computerHand[i]);
+                computerHand.erase(computerHand.begin()+i);
+            }
+        }
+    }
+    else{
+        //Computer takes from player
+        for(int i = 0; i < userHand.size(); i++){
+            if(userHand[i].getName() == card){
+                computerHand.push_back(userHand[i]);
+                userHand.erase(userHand.begin()+i);
+            }
+        }
+    }
 }
 
 /** This function is work in progress. It is suppose to check if there is a book in hand

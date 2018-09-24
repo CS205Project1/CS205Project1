@@ -61,36 +61,39 @@ int main() {
             string userResponse;
 
             cout << "Welcome to Smart mode.  Is is your turn... "<< endl;
-            smartGame.printHand(1);  //Print user hand
-            cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
-            std::cin >> userResponse;  //Capture user response
-
 
             while(userResponse != "quit"){
 
                 // ------------------- PLAYER TURN ------------------- //
                 //checkCardCount(user) - will check to see if cards are needed for a full hand/draws any missing
+                smartGame.printHand(1);  //Print user hand
+                smartGame.printHand(2);
+                cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
+                std::cin >> userResponse;  //Capture user response
                 // If user wants help
                 if(userResponse == "?"){
                     //printHelp()
                 }
-                //If user asks for a card in their hand
-                else if(smartGame.inHandCheck(userResponse)){ //Checks to see if response matches card in own hand
+                //THIS NEXT STATEMENT MAKES NO SENSE!!! I WILL FIX IT TO CHECK FOR A VALID RESPONSE
+                    //If user asks for a card in their hand
+                else if(smartGame.inHandCheck(userResponse)) { //Checks to see if response matches card in own hand
                     //Checks to see if computer has card and gives more turns if user gets it right
                     bool anotherTurn = true;
-                    while(anotherTurn)
-                        if(smartGame.askComputer(userResponse)){
-                            //user.takeCards(userResponse,Computer)
+                    while (anotherTurn) {
+                        if (smartGame.askComputer(userResponse)) {
+                            smartGame.takeCards(userResponse,2); //Take card from computer(2)
+                            smartGame.printHand(1);
+                            smartGame.printHand(2);
                             //user.bookCheck() - puts aside books (adds points)
                             std::cout << "Here's Another turn" << std::endl;
-                        }
-                        else{
+                        } else {
                             //player.goFish()
                             anotherTurn = false;
                         }
+                    }
                 }
                 else{
-                    cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
+                    //Do nothing, reprompt
                 }
 
 
