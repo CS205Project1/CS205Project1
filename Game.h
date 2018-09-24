@@ -48,9 +48,14 @@ public:
     //Prints the hand. Made it print them out fancy
     void printHand(int playerNum);
 
+    //HONESTLY DON'T KNOW WHY I PUT THIS IN IT MAKES NO SENSE
     //Check to see if the card is in the players hand (response validation)
     bool inHandCheck(string userResponse);
+
+    //Returns true if Computer has matching card
     bool askComputer(string response);
+
+    void takeCards(string card, int playerNum);
 
     //Suppose to check if there is a book in hand
     void checkForBook();
