@@ -122,9 +122,9 @@ void Game::printHand(int playerNum){
 
         for (int i = 0; i < computerHand.size(); i++) {
             if(computerHand[i].getRank() < 10) {
-                cout << "| "  << computerHand[i]  << "  |  ";
+                cout << "| "  << computerHand[i].getRank() << computerHand[i].getSuitString()  << "  |  ";
             }else{
-                cout << "| " << computerHand[i] << " |  ";
+                cout << "| " << computerHand[i].getRank() << computerHand[i].getSuitString() << " |  ";
             };
         };
         cout << endl;
