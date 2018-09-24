@@ -31,6 +31,8 @@ void Deck::printDeck() {
     };
 }
 
+
+//MERGED HAND AND GAME
 /*Hand::Hand() = default;
 
 Hand::Hand(vector<Card> playerHand,vector<Card> computerHand){
