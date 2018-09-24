@@ -3,6 +3,7 @@
 #include "Card.h"
 #include "Deck.h"
 #include "Game.h"
+#include <stdlib.h>
 
 int main() {
 
@@ -70,22 +71,25 @@ int main() {
                 smartGame.printHand(2);
                 cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
                 std::cin >> userResponse;  //Capture user response
+
                 // If user wants help
                 if(userResponse == "?"){
                     //printHelp()
                 }
-                //THIS NEXT STATEMENT MAKES NO SENSE!!! I WILL FIX IT TO CHECK FOR A VALID RESPONSE
-                    //If user asks for a card in their hand
-                else if(smartGame.inHandCheck(userResponse)) { //Checks to see if response matches card in own hand
+                //If user asks for a card in their hand
+                else if(stoi(userResponse) > 0 && stoi(userResponse) <= smartGame.userHand.size()){
                     //Checks to see if computer has card and gives more turns if user gets it right
                     bool anotherTurn = true;
                     while (anotherTurn) {
                         if (smartGame.askComputer(userResponse)) {
                             smartGame.takeCards(userResponse,2); //Take card from computer(2)
-                            smartGame.printHand(1);
-                            smartGame.printHand(2);
+
+                            //SUCCESSFULLY TRADES CARDS!!!
+                            //smartGame.printHand(1);
+                            //smartGame.printHand(2);
+
                             //user.bookCheck() - puts aside books (adds points)
-                            std::cout << "Here's Another turn" << std::endl;
+                            std::cout << "You got some cards!  Here's Another turn" << std::endl;
                         } else {
                             //player.goFish()
                             anotherTurn = false;

@@ -164,8 +164,9 @@ bool Game::inHandCheck(string userInput){
 
 bool Game::askComputer(string response){
     bool returnValue = false;
+    int rank = userHand[stoi(response)-1].getRank();
     for(int i = 0; i < computerHand.size(); i++){
-        if(response == computerHand[i].getName()){
+        if(rank == computerHand[i].getRank()){
             returnValue = true;
         }
     }
@@ -173,10 +174,11 @@ bool Game::askComputer(string response){
 }
 
 void Game::takeCards(string card, int playerNum){
-    if(playerNum == 1){
+    if(playerNum == 2){
         //Player takes from computer
         for(int i = 0; i < computerHand.size(); i++){
-            if(computerHand[i].getName() == card){
+            //userHan == computer
+            if(computerHand[i].getRank() == userHand[stoi(card)-1].getRank()){
                 userHand.push_back(computerHand[i]);
                 computerHand.erase(computerHand.begin()+i);
             }
@@ -185,7 +187,7 @@ void Game::takeCards(string card, int playerNum){
     else{
         //Computer takes from player
         for(int i = 0; i < userHand.size(); i++){
-            if(userHand[i].getName() == card){
+            if(userHand[i].getRank() == computerHand[stoi(card)].getRank()){
                 computerHand.push_back(userHand[i]);
                 userHand.erase(userHand.begin()+i);
             }
