@@ -85,10 +85,10 @@ void Game::printHand(int playerNum){
         cout << endl;
 
         for (int i = 0; i < userHand.size(); i++) {
-            if(userHand[i].getRank() < 10) {
-                cout << "| "  << userHand[i].getRank() << userHand[i].getSuitString()  << "  |  ";
+            if(userHand[i].getRank() != 10) {
+                cout << "| "  << userHand[i].getRankString() << userHand[i].getSuitString()  << "  |  ";
             }else{
-                cout << "| " << userHand[i].getRank() << userHand[i].getSuitString() << " |  ";
+                cout << "| " << userHand[i].getRankString() << userHand[i].getSuitString() << " |  ";
             };
         };
         cout << endl;
@@ -121,10 +121,10 @@ void Game::printHand(int playerNum){
         cout << endl;
 
         for (int i = 0; i < computerHand.size(); i++) {
-            if(computerHand[i].getRank() < 10) {
-                cout << "| "  << computerHand[i].getRank() << computerHand[i].getSuitString()  << "  |  ";
+            if(computerHand[i].getRank() != 10) {
+                cout << "| "  << computerHand[i].getRankString() << computerHand[i].getSuitString()  << "  |  ";
             }else{
-                cout << "| " << computerHand[i].getRank() << computerHand[i].getSuitString() << " |  ";
+                cout << "| " << computerHand[i].getRankString() << computerHand[i].getSuitString() << " |  ";
             };
         };
         cout << endl;

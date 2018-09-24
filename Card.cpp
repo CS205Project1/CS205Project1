@@ -12,6 +12,22 @@ int Card::getRank() const {
     return rank;
 }
 
+string Card::getRankString() const {
+    if(rank==1){
+        return "A";
+    }
+    if(rank==11){
+        return "J";
+    }
+    if(rank==12){
+        return "Q";
+    }
+    if(rank==13){
+        return "K";
+    }
+    return to_string(rank);
+}
+
 Suit Card::getSuit() const{
     return suit;
 }

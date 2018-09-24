@@ -23,7 +23,10 @@ public:
 
     //Getters
     int getRank() const;
+    //returns rank, replacing 1, 11, 12, 13 with A, J, Q, K
+    string getRankString() const;
     Suit getSuit() const;
+    //returns suit as its symbol for the purpose of printing card face
     string getSuitString() const;
     string getName() const;
 
