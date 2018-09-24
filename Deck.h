@@ -1,12 +1,10 @@
-#ifndef CS205_GOFISH_GOFISH_H
-#define CS205_GOFISH_GOFISH_H
+#ifndef CS205PROJECT1_DECK_H
+#define CS205PROJECT1_DECK_H
 
 #include <vector>
 #include <utility>
 #include <iostream>
 #include <iomanip>
-#include <algorithm>
-#include <random>
 #include "Card.h"
 using namespace std;
 
@@ -24,8 +22,6 @@ public:
     int getNumOfCardsDealt() const;
     void setNumOfCardsDealt(int numOfCardsDealt);
 
-    //Suffles the deck
-    void shuffleDeck();
     //Prints the deck. Main use for testing
     void printDeck();
 
@@ -60,4 +56,4 @@ public:
 };
 */
 
-#endif //CS205_GOFISH_GOFISH_H
+#endif CS205PROJECT1_DECK_H

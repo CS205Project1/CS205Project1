@@ -37,8 +37,14 @@ void Game::setComputerHand(vector<Card> &h) {
     Game::computerHand = h;
 }
 
+void Game::shuffleDeck(){
+    random_device rd;
+    mt19937 g(rd());
+    shuffle(deck.deck.begin(), deck.deck.end(), g);
+}
 //OTHER METHODS
 void Game::dealCards(int numOfCards){
+    shuffleDeck();
     //iterator
     auto it = next(deck.deck.begin(), numOfCards);
 

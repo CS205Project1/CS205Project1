@@ -1,5 +1,5 @@
-#ifndef PROJECT_CARD_H
-#define PROJECT_CARD_H
+#ifndef CS205PROJECT1_CARD_H
+#define CS205PROJECT1_CARD_H
 
 #include <iostream>
 #include <algorithm>
@@ -29,4 +29,4 @@ public:
 };
 
 
-#endif //PROJECT_CARD_H
+#endif CS205PROJECT1_CARD_H

@@ -1,9 +1,5 @@
-//
-// Created by Jean-Baptiste Bolh on 9/17/18.
-//
-
-#ifndef UNTITLED_GAME_H
-#define UNTITLED_GAME_H
+#ifndef CS205PROJECT1_GAME_H
+#define CS205PROJECT1_GAME_H
 
 #include <vector>
 #include <utility>
@@ -38,6 +34,9 @@ public:
     void setComputerScore(int computerScore);
     void setUserHand(vector<Card> &userHand);
     void setComputerHand(vector<Card> &computerHand);
+
+    //Suffles the deck
+    void shuffleDeck();
 
     //This function does the following; Shuffle deck, then deal the number of cards specified to playerHand and computerHand, then remove them from the deck.
     void dealCards(int numOfCards);

@@ -19,12 +19,6 @@ void Deck::setNumOfCardsDealt(int numOfCardsDealt) {
     Deck::numOfCardsDealt = numOfCardsDealt;
 }
 
-void Deck::shuffleDeck(){
-    random_device rd;
-    mt19937 g(rd());
-    shuffle(deck.begin(), deck.end(), g);
-}
-
 void Deck::printDeck() {
     for(int i = 0; i < deck.size(); i++){
         cout << i+1 << ". " << deck[i] << endl;
