@@ -2,7 +2,6 @@
 using namespace std;
 
 Deck::Deck(){
-
     char suit[] = {'S', 'H', 'C', 'D'};
     for (int j=1; j<14; j++) {
         for (int i=0; i<4; i++) {
@@ -10,7 +9,7 @@ Deck::Deck(){
         }
     }
 
-};
+}
 
 int Deck::getNumOfCardsDealt() const {
     return numOfCardsDealt;
@@ -18,13 +17,13 @@ int Deck::getNumOfCardsDealt() const {
 
 void Deck::setNumOfCardsDealt(int numOfCardsDealt) {
     Deck::numOfCardsDealt = numOfCardsDealt;
-};
+}
 
 void Deck::shuffleDeck(){
     random_device rd;
     mt19937 g(rd());
     shuffle(deck.begin(), deck.end(), g);
-};
+}
 
 void Deck::printDeck() {
     for(int i = 0; i < deck.size(); i++){
@@ -32,7 +31,7 @@ void Deck::printDeck() {
     };
 }
 
-Hand::Hand() = default;
+/*Hand::Hand() = default;
 
 Hand::Hand(vector<Card> playerHand,vector<Card> computerHand){
     playerHand = playerHand;
@@ -170,3 +169,4 @@ void Hand::printHands(int playerNum){
     }
 
 };
+ */

@@ -3,22 +3,25 @@
 #include "Card.h"
 #include "Deck.h"
 #include "Game.h"
-Deck d;
-Hand h;
-Game g;
+
 int main() {
-    Deck(); //construct the deck
+
+    /* ================================== <TESTING> ================================== */
+    //Game g = Game();
 
     /**
      * The code below is mainly for testing the methods
      */
-//    d.printDeck(); //print the deck
-//    cout<< "-------------------" << endl;
-//    d.shuffleDeck(); //this will shuffle the deck, but it's not necessary to use outside of testing
-//    cout<< "-------------------" << endl;
-//    d.printDeck(); //again mainly for testing purposes
-//    cout<< "-------------------" << endl;
-    h.dealCards(7); //When this is called it will shuffle the cards. Deal the cards. And print them, but that can be changed when needed
+    /*
+    g.deck.printDeck(); //print the deck
+    cout<< "-------------------" << endl;
+    g.deck.shuffleDeck(); //this will shuffle the deck, but it's not necessary to use outside of testing
+    cout<< "-------------------" << endl;
+    g.deck.printDeck(); //again mainly for testing purposes
+    cout<< "-------------------" << endl;
+    g.dealCards(7); //When this is called it will shuffle the cards. Deal the cards. And print them, but that can be changed when needed
+    */
+//    g.deck.printDeck();
 //    h.drawCard(1); //this will draw a card. use the parameter 1 to draw card for human player and user 2 to draw card for computer
 //    h.printHands(1); //1 = print hand for human player
 //    h.printHands(2); // 2 = print hand for computer player
@@ -33,40 +36,34 @@ int main() {
 //    g.checkForBook();
 //
 //
+    /* ================================== </TESTING> ================================== */
 
 
+    /* =================================== <GAME> ===================================== */
 
-
-
-
-
-/*
     //Prompt to Choose Mode - While (not quit)
-    std::string modeChoice;
-    std::cout << " --- Welcome to Go Fish ---" << std::endl;
+    string modeChoice;
+    cout << " --- Welcome to Go Fish ---" << endl;
     while (modeChoice != "0") {
-        std::cout << "Please choose one of the following options:" << std::endl;
-        std::cout << "0 - quit" << std::endl;
-        std::cout << "1 - Smart Mode" << std::endl;
-        std::cout << "2 - Dumb Dumb Mode" << std::endl;
+        cout << "Please choose one of the following options:" << endl;
+        cout << "0 - quit" << endl;
+        cout << "1 - Smart Mode" << endl;
+        cout << "2 - Dumb Dumb Mode" << endl;
 
         std::cin >> modeChoice;
 
 
-// ------------------- SMART MODE ------------------- //
+    // ------------------- SMART MODE ------------------- //
         if(modeChoice == "1"){
 
             //Setting up the game
-            //smartGame = Game() - create new game
-            //user = User()
-            //computer = Computer()
-            std::string userResponse;
+            Game smartGame = Game();  //create new game
+            string userResponse;
 
-
-            std::cout << "Welcome to Smart mode.  Is is your turn... "<< std::endl;
-            std::cout << "For Help, enter \"?\" --- To Quit, enter \"quit\"" << std::endl;
-            //printHand() - Prints current hand
-            std::cin >> userResponse;
+            cout << "Welcome to Smart mode.  Is is your turn... "<< endl;
+            smartGame.printHand(1);  //Print user hand
+            cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
+            std::cin >> userResponse;  //Capture user response
 
 
             while(userResponse != "quit"){
@@ -77,14 +74,12 @@ int main() {
                 if(userResponse == "?"){
                     //printHelp()
                 }
-
                 //If user asks for a card in their hand
-                else if(userResponse.inHandCheck() == true){ //Checks to see if response matches card in hand
-
+                else if(smartGame.inHandCheck(userResponse)){ //Checks to see if response matches card in own hand
                     //Checks to see if computer has card and gives more turns if user gets it right
                     bool anotherTurn = true;
-                    while(anotherTurn == true)
-                        if(askComputer(userResponse)==true){
+                    while(anotherTurn)
+                        if(smartGame.askComputer(userResponse)){
                             //user.takeCards(userResponse,Computer)
                             //user.bookCheck() - puts aside books (adds points)
                             std::cout << "Here's Another turn" << std::endl;
@@ -95,7 +90,7 @@ int main() {
                         }
                 }
                 else{
-                    std::cout << "For Help, enter \"?\" --- To Quit, enter \"quit\"" << std::endl;
+                    cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
                 }
 
 
@@ -109,9 +104,11 @@ int main() {
     return 0;
 }
 
+/* =================================== </GAME> ===================================== */
 
 
- Prompt to Choose Mode
+
+ /*Prompt to Choose Mode
  While (not quit){
 
     If (Choose Smart){
@@ -169,5 +166,6 @@ int main() {
 }
 
 //Students play until the deck is empty, and all students have emptied their hands.
-*/
+
 }
+*/

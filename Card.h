@@ -5,12 +5,15 @@
 #include <algorithm>
 #include <random>
 #include <vector>
+#include <string>
 using namespace std;
 
 class Card {
 private:
     int rank;
     char suit;
+    string name = to_string(rank)+to_string(suit);
+
 public:
     //default constructors
     Card();
@@ -19,6 +22,7 @@ public:
     //Getters
     int getRank() const;
     char getSuit() const;
+    string getName() const;
 
     //Overloading operator
     friend ostream& operator << (ostream& outs, const Card &c);
