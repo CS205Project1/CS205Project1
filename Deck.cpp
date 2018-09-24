@@ -2,7 +2,7 @@
 using namespace std;
 
 Deck::Deck(){
-    char suit[] = {'S', 'H', 'C', 'D'};
+    Suit suit[] = {spades, diamonds, clubs, hearts};
     for (int j=1; j<14; j++) {
         for (int i=0; i<4; i++) {
             deck.emplace_back(Card(j,suit[i]));

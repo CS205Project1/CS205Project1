@@ -8,20 +8,23 @@
 #include <string>
 using namespace std;
 
+enum Suit{spades, diamonds, clubs, hearts};
+
 class Card {
 private:
     int rank;
-    char suit;
+    Suit suit;
     string name = to_string(rank)+to_string(suit);
 
 public:
     //default constructors
     Card();
-    Card(int r, char s);
+    Card(int r, Suit s);
 
     //Getters
     int getRank() const;
-    char getSuit() const;
+    Suit getSuit() const;
+    string getSuitString() const;
     string getName() const;
 
     //Overloading operator

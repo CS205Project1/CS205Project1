@@ -85,9 +85,9 @@ void Game::printHand(int playerNum){
 
         for (int i = 0; i < userHand.size(); i++) {
             if(userHand[i].getRank() < 10) {
-                cout << "| "  << userHand[i]  << "  |  ";
+                cout << "| "  << userHand[i].getRank() << userHand[i].getSuitString()  << "  |  ";
             }else{
-                cout << "| " << userHand[i] << " |  ";
+                cout << "| " << userHand[i].getRank() << userHand[i].getSuitString() << " |  ";
             };
         };
         cout << endl;
