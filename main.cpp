@@ -102,6 +102,10 @@ int main() {
 
 
                 // ------------------- COMPUTER TURN ------------------- //
+                /*
+                 * if there are any values in the memory vector, computer will ask for one
+                 * otherwise, choose a random card in its hand and ask for it
+                 */
 
             }
 

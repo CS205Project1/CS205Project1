@@ -165,6 +165,8 @@ bool Game::inHandCheck(string userInput){
 bool Game::askComputer(string response){
     bool returnValue = false;
     int rank = userHand[stoi(response)-1].getRank();
+    //computer now "knows" user has this card
+    memory.push_back(rank);
     for(int i = 0; i < computerHand.size(); i++){
         if(rank == computerHand[i].getRank()){
             returnValue = true;
@@ -190,13 +192,19 @@ void Game::takeCards(string card, int playerNum){
             if(userHand[i].getRank() == computerHand[stoi(card)].getRank()){
                 computerHand.push_back(userHand[i]);
                 userHand.erase(userHand.begin()+i);
+                //erase this rank from memory as user no longer has it
+                for(int j = memory.size()-1; j > 0; j--){
+                    if(memory[j] == stoi(card)){
+                        memory.erase(memory.begin()+j);
+                    }
+                }
             }
         }
     }
 }
 
-/** This function is work in progress. It is suppose to check if there is a book in hand
- **
+/** This function is work in progress. It is suppose to check if there is a book in hand.
+ ** when a book is scored, that rank should be erased from the memory vector
  */
 void Game::checkForBook(){
     printHand(1);

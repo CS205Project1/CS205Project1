@@ -23,6 +23,12 @@ public:
     Deck deck;
     vector<Card> userHand;
     vector<Card> computerHand;
+    /*
+     * memory stores the ranks of all cards the user has asked for.
+     * the computer will prioritize asking for these values if it can,
+     * as it knows the user has them.
+     */
+    vector<int> memory;
 
     //Default constructors
     Game();
