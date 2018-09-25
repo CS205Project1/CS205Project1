@@ -19,6 +19,8 @@ public:
     Deck deck;
     vector<Card> userHand;
     vector<Card> computerHand;
+    vector<Card> userBooks;
+    vector<Card> computerBooks;
     /*
      * memory stores the ranks of all cards the user has asked for.
      * the computer will prioritize asking for these values if it can,
@@ -34,12 +36,16 @@ public:
     int getComputerScore() const;
     vector<Card> getUserHand() const;
     vector<Card> getComputerHand() const;
+    vector<Card> getUserBooks() const;
+    vector<Card> getComputerBooks() const;
 
     //Setters
     void setUserScore(int userScore);
     void setComputerScore(int computerScore);
     void setUserHand(vector<Card> &userHand);
     void setComputerHand(vector<Card> &computerHand);
+    void setUserBooks(vector<Card> &userBooks);
+    void setComputerBooks(vector<Card> &computerBooks);
 
     //Suffles the deck
     void shuffleDeck();

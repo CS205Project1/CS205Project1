@@ -6,7 +6,6 @@ Game::Game() {
     userScore = 0;
     computerScore = 0;
     deck = Deck();
-    deck.shuffleDeck();
     dealCards(7);
 }
 
@@ -23,6 +22,13 @@ vector<Card> Game::getUserHand() const {
 vector<Card> Game::getComputerHand() const {
     return computerHand;
 }
+vector<Card> Game::getUserBooks() const {
+    return userBooks;
+}
+vector<Card> Game::getComputerBooks() const {
+    return computerBooks;
+}
+
 
 //SETTERS
 void Game::setUserScore(int u) {
@@ -37,6 +43,13 @@ void Game::setUserHand(vector<Card> &h) {
 void Game::setComputerHand(vector<Card> &h) {
     Game::computerHand = h;
 }
+void Game::setComputerBooks(vector<Card> &computerBooks) {
+    Game::computerBooks = computerBooks;
+}
+void Game::setUserBooks(vector<Card> &userBooks) {
+    Game::userBooks = userBooks;
+}
+
 
 void Game::shuffleDeck(){
     random_device rd;
@@ -210,15 +223,41 @@ void Game::takeCards(string card, int playerNum){
 }
 
 /** This function is work in progress. It is suppose to check if there is a book in hand.
- ** when a book is scored, that rank should be erased from the memory vector
+ ** when a book is scored, that rank should be erased from the memory vector.
+ * Right now it finds and displays all matching pairs.
+ *
+ * Here is requirements for this method:
+ *
+ *  - It needs to check to see if there is 4 matching ranks(aka cards)
+ *  - If there is then it should add them to separate vector and remove them from the hand so that it can't be used for the rest of the game
+ *  - We'll use the vector of books each player has to determine the winner. The player with the most books in their vector will be the winner.
  */
 void Game::checkForBook(){
     printHand(1);
-    //cout << computerHand[1].getRank() << endl;
+    //printHand(2);
+
+    int matchCount = 0;
+
+    //Making a copy of the ranks in hand and pushing them in a new vector.
+    vector<int> userCardRanks;
+
     for(int i = 0; i < userHand.size(); i++) {
-        for(int j = 0; j < userHand.size(); j++) {
-            if(userHand[i].getRank() == userHand[j].getRank()){
-                cout << userHand[i].getRank() << ' == ' << userHand[j+1].getRank() << endl;
+      userCardRanks.push_back(userHand[i].getRank());
+    };
+    for(auto i: userCardRanks){
+        cout << i << ", " ;
+    }
+    cout<<endl;
+
+    for(int i = 0; i < userHand.size(); i++) {
+        for(int j = (i+1); j < userHand.size(); j++) {
+            if (userHand[i].getRank() == userHand[j].getRank()) {
+                cout << userHand[i].getRank() << " == " << userHand[j].getRank() << endl;
+//                       matchCount++;
+//                      if(matchCount == 6) {
+//                           cout << userHand[i].getRank() << " == " << matchCount << endl;
+//                           matchCount = 0;
+//                      };
             };
         };
     };

@@ -34,7 +34,7 @@ int main() {
      * when you use the printHands function in the checkForBook() function. I feel like I am missing a very simple point there,
      * so some help would be cool.
      */
-//    g.checkForBook();
+    g.checkForBook();
 //
 //
     /* ================================== </TESTING> ================================== */
