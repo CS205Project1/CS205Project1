@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <vector>
 #include "Card.h"
 #include "Deck.h"
 #include "Game.h"
@@ -8,35 +8,7 @@
 int main() {
 
     /* ================================== <TESTING> ================================== */
-    //Game g = Game();
-
-    /**
-     * The code below is mainly for testing the methods
-     */
-    /*
-    g.deck.printDeck(); //print the deck
-    cout<< "-------------------" << endl;
-    g.deck.shuffleDeck(); //this will shuffle the deck, but it's not necessary to use outside of testing
-    cout<< "-------------------" << endl;
-    g.deck.printDeck(); //again mainly for testing purposes
-    cout<< "-------------------" << endl;
-    g.dealCards(7); //When this is called it will shuffle the cards. Deal the cards. And print them, but that can be changed when needed
-    */
-//    g.deck.printDeck();
-//    h.drawCard(1); //this will draw a card. use the parameter 1 to draw card for human player and user 2 to draw card for computer
-//    h.printHands(1); //1 = print hand for human player
-//    h.printHands(2); // 2 = print hand for computer player
-//    h.printDeck();    //this will print the deck after the cards have been dealt and removed from the deck.
-
-    /**
-     * Working on the method below. The problem I am encountering is the vectors for playerHand and computerHand are empty
-     * even after the cards have been dealt. Now it is populated when you print it in by calling h.pringHands(), but it's empty
-     * when you use the printHands function in the checkForBook() function. I feel like I am missing a very simple point there,
-     * so some help would be cool.
-     */
-//    g.checkForBook();
-//
-//
+    //Moved to testing.cpp --- To use, add testing.cpp to CMakeLists.txt and remove main.cpp
     /* ================================== </TESTING> ================================== */
 
 
@@ -66,7 +38,10 @@ int main() {
             while(userResponse != "quit"){
 
                 // ------------------- PLAYER TURN ------------------- //
-                //checkCardCount(user) - will check to see if cards are needed for a full hand/draws any missing
+                //Draw card if not enough cards
+                while(smartGame.userHand.size() < 7){
+                    smartGame.drawCard(1);
+                }
                 smartGame.printHand(1);  //Print user hand
                 smartGame.printHand(2);
                 cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
@@ -79,8 +54,7 @@ int main() {
                 //If user asks for a card in their hand
                 else if(stoi(userResponse) > 0 && stoi(userResponse) <= smartGame.userHand.size()){
                     //Checks to see if computer has card and gives more turns if user gets it right
-                    bool anotherTurn = true;
-                    while (anotherTurn) {
+                    while (true) {
                         if (smartGame.askComputer(userResponse)) {
                             smartGame.takeCards(userResponse,2); //Take card from computer(2)
 
@@ -88,12 +62,13 @@ int main() {
                             //smartGame.printHand(1);
                             //smartGame.printHand(2);
 
-                            //user.bookCheck() - puts aside books (adds points)
-                            std::cout << "You got some cards!  Here's Another turn" << std::endl;
+                            cout << "You got some cards!  Here's Another turn" << endl;
                         } else {
-                            //player.goFish()
-                            anotherTurn = false;
+                            smartGame.drawCard(1); //User goes fish
+                            break;
                         }
+                        smartGame.checkForBook(1); //puts aside books player 1 (adds points)
+                        cout << smartGame.getUserScore() << endl;
                     }
                 }
                 else{
@@ -106,7 +81,31 @@ int main() {
                  * if there are any values in the memory vector, computer will ask for one
                  * otherwise, choose a random card in its hand and ask for it
                  */
+                //Go fish if not enough cards
+                while(smartGame.computerHand.size() < 7){
+                    smartGame.drawCard(2);
+                }
+                //Computer checks memory of card
 
+                //If match is found (currently using dumb since memory is not fully implemented
+                if (smartGame.askUserDumb()){
+                    smartGame.takeCards()
+                    //set any books aside
+                }
+                else{
+                        Ask user for card
+                        If (the player has the card){
+                            player answers "Yes, I do"
+                                           and gives the all cards of that rank to the user.
+                                    User gets another turn
+                            User gets a point for every book and the book is put aside
+                        }
+                        Else (user does not have that card){
+                            answers "Go Fish"
+                            computer draws a card from the deck.
+                                    Users Turn (Goes fish if they don't have enough cards)
+                        }
+                }
             }
 
 

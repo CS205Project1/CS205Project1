@@ -60,13 +60,30 @@ public:
 
     //Returns true if Computer has matching card
     bool askComputer(string response);
+    bool askUserSmart(int cardToAskFor);
+    bool askUserDumb();
 
     void takeCards(string card, int playerNum);
 
     //Suppose to check if there is a book in hand
-    void checkForBook();
+    void checkForBook(int playerNumber);
+
     void gameLogic();
-    void recordGuess(int guess, int playerNum);
+
+
+    /*===========================MEMORY MANIPULATION===========================*/
+    //records the guess to memory
+    void recordToMemory(int guess);
+
+    //Deletes that rank from memory
+    void deleteFromMemory(int rank);
+
+    //Returns true if there is a card in your hand that matches a card in memory
+    //Return: card to ask for, null means don't ask for a card
+    int compareHandToMemory();
+
+
+
 
 };
 
