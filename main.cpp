@@ -90,11 +90,11 @@ int main() {
 
                 //If match is found (currently using dumb since memory is not fully implemented
                 if (smartGame.askUserDumb()){
-                    //smartGame.takeCards();
+                    smartGame.takeCards();
                     //set any books aside
                 }
                 else{
-                    /*
+
                         Ask user for card
                         If (the player has the card){
                             player answers "Yes, I do"
@@ -107,7 +107,7 @@ int main() {
                             computer draws a card from the deck.
                                     Users Turn (Goes fish if they don't have enough cards)
                         }
-                        */
+
                 }
             }
 
