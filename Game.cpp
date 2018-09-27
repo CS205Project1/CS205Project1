@@ -180,12 +180,11 @@ bool Game::inHandCheck(string userInput){
     }
     return returnValue;
 }
-
 bool Game::askComputer(string response){
     bool returnValue = false;
     int rank = userHand[stoi(response)-1].getRank();
     //computer now "knows" user has this card
-    memory.push_back(rank);
+    recordToMemory(rank);
     for(int i = 0; i < computerHand.size(); i++){
         if(rank == computerHand[i].getRank()){
             returnValue = true;
@@ -193,7 +192,30 @@ bool Game::askComputer(string response){
     }
     return returnValue;
 }
-
+bool Game::askUserSmart(int cardToAskFor){
+    bool returnValue = false;
+    int rank = computerHand[cardToAskFor-1].getRank();
+    for(int i = 0; i < userHand.size(); i++){
+        if(rank == userHand[i].getRank()){
+            returnValue = true;
+            //Erase this rank from memory
+            deleteFromMemory(rank);
+            //take the card from player
+            takeCards(to_string(rank),1);
+        }
+    }
+    return returnValue;
+}
+bool Game::askUserDumb(){
+    bool returnValue = false;
+    int rank = computerHand[1].getRank();
+    for(int i = 0; i < userHand.size(); i++){
+        if(rank == userHand[i].getRank()){
+            returnValue = true;
+        }
+    }
+    return returnValue;
+}
 void Game::takeCards(string card, int playerNum){
     if(playerNum == 2){
         //Player takes from computer
@@ -212,16 +234,11 @@ void Game::takeCards(string card, int playerNum){
                 computerHand.push_back(userHand[i]);
                 userHand.erase(userHand.begin()+i);
                 //erase this rank from memory as user no longer has it
-                for(int j = memory.size()-1; j > 0; j--){
-                    if(memory[j] == stoi(card)){
-                        memory.erase(memory.begin()+j);
-                    }
-                }
+                deleteFromMemory(stoi(card));
             }
         }
     }
 }
-
 /** This function is work in progress. It is suppose to check if there is a book in hand.
  ** when a book is scored, that rank should be erased from the memory vector.
  * Right now it finds and displays all matching pairs.
@@ -232,39 +249,89 @@ void Game::takeCards(string card, int playerNum){
  *  - If there is then it should add them to separate vector and remove them from the hand so that it can't be used for the rest of the game
  *  - We'll use the vector of books each player has to determine the winner. The player with the most books in their vector will be the winner.
  */
-void Game::checkForBook(){
-    printHand(1);
-    //printHand(2);
+void Game::checkForBook(int playerNumber){
+    //Create an array to hold matching rank count
+    int rankCount [13] = {0,0,0,0,0,0,0,0,0,0,0,0,0}; //Holds 13 ranks
 
-    int matchCount = 0;
+    //User Check
+    if(playerNumber == 1){
+        //Loop through each card in hand and add matching ranks
+        for(int i = 0; i < userHand.size(); i++){
+            //Add one to rankCount@ current card rank (-1 because of arrays)
+            rankCount[userHand[i].getRank()-1] = rankCount[userHand[i].getRank()-1] + 1;
+        }
 
-    //Making a copy of the ranks in hand and pushing them in a new vector.
-    vector<int> userCardRanks;
+        for (int i = 0; i < 13; i++)
+            cout << rankCount[i];
 
-    for(int i = 0; i < userHand.size(); i++) {
-      userCardRanks.push_back(userHand[i].getRank());
-    };
-    for(auto i: userCardRanks){
-        cout << i << ", " ;
+        //Loop through rankCount to see if any have 4 --- i+1 = rank
+        for(int i = 0; i < 13; i++){
+            //If a book is in the hand (4 of a kind), loop through hand and remove those cards
+            if(rankCount[i] == 4){
+                deleteFromMemory(i);
+                int cardsRemoved = 0;
+                for(int j = 0; j < userHand.size(); j++){
+                    //If the rank matches, remove the card
+                    if(userHand[j].getRank() == i+1){
+                        userHand.erase(userHand.begin()+j);
+                        cardsRemoved++;
+                    }
+                }
+                //Add one to user score
+                userScore++;
+            }
+        }
     }
-    cout<<endl;
+    //Computer Check -- SAME AS USER HAND
+    else{
+        //Loop through each card in hand and add matching ranks
+        for(int i = 0; i < computerHand.size(); i++){
+            //Add one to rankCount@ current card rank (-1 because of arrays)
+            rankCount[computerHand[i].getRank()-1] = rankCount[computerHand[i].getRank()-1] + 1;
+        }
 
-    for(int i = 0; i < userHand.size(); i++) {
-        for(int j = (i+1); j < userHand.size(); j++) {
-            if (userHand[i].getRank() == userHand[j].getRank()) {
-                cout << userHand[i].getRank() << " == " << userHand[j].getRank() << endl;
-//                       matchCount++;
-//                      if(matchCount == 6) {
-//                           cout << userHand[i].getRank() << " == " << matchCount << endl;
-//                           matchCount = 0;
-//                      };
-            };
-        };
-    };
+        for (int i = 0; i < 13; i++)
+            cout << rankCount[i];
+
+        //Loop through rankCount to see if any have 4 --- i+1 = rank
+        for(int i = 0; i < 13; i++){
+            //If a book is in the hand (4 of a kind), loop through hand and remove those cards
+            if(rankCount[i] == 4){
+                int cardsRemoved = 0;
+                for(int j = 0; j < computerHand.size(); j++){
+                    //If the rank matches, remove the card
+                    if(computerHand[j].getRank() == i+1){
+                        computerHand.erase(computerHand.begin()+j);
+                        cardsRemoved++;
+                    }
+                }
+                //Add one to computer score
+                computerScore++;
+            }
+        }
+    }
 }
-void Game::gameLogic(){
 
+//MEMORY STUFF
+void Game::recordToMemory(int guess){
+    memory.push_back(guess);  //Saves the users guess to memory
 }
-void Game::recordGuess(int guess, int playerNum){
 
+void Game::deleteFromMemory(int rank){
+    for(int i = 0; i < memory.size(); i++){
+        if(memory[i]==rank){
+            memory.erase(memory.begin()+i);
+        }
+    }
+}
+
+int Game::compareHandToMemory(){
+    for(int i = 0; i < memory.size(); i++){
+        for(int j = 0; j < computerHand.size(); j++){
+            if(memory[i] == computerHand[j].getRank()){
+                return memory[i];
+            }
+        }
+    }
+    return 0;
 }
