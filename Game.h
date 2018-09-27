@@ -78,8 +78,7 @@ public:
     //Deletes that rank from memory
     void deleteFromMemory(int rank);
 
-    //Returns true if there is a card in your hand that matches a card in memory
-    //Return: card to ask for, null means don't ask for a card
+    //Returns rank of card to ask for, or 0 if nothing in hand matches memory
     int compareHandToMemory();
 
 

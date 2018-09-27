@@ -163,7 +163,7 @@ bool Game::askComputer(string response){
     bool returnValue = false;
     int rank = userHand[stoi(response)-1].getRank();
     //computer now "knows" user has this card
-    memory.push_back(rank);
+    recordToMemory(rank);
     for(int i = 0; i < computerHand.size(); i++){
         if(rank == computerHand[i].getRank()){
             returnValue = true;
@@ -173,12 +173,14 @@ bool Game::askComputer(string response){
 }
 bool Game::askUserSmart(int cardToAskFor){
     bool returnValue = false;
-    int rank = computerHand[stoi(cardToAskFor)-1].getRank();
+    int rank = computerHand[cardToAskFor-1].getRank();
     for(int i = 0; i < userHand.size(); i++){
         if(rank == userHand[i].getRank()){
             returnValue = true;
             //Erase this rank from memory
-            memory.erase(remove(memory.begin(), memory.end(), rank));
+            deleteFromMemory(rank);
+            //take the card from player
+            takeCards(to_string(rank),1);
         }
     }
     return returnValue;
@@ -211,11 +213,7 @@ void Game::takeCards(string card, int playerNum){
                 computerHand.push_back(userHand[i]);
                 userHand.erase(userHand.begin()+i);
                 //erase this rank from memory as user no longer has it
-                for(int j = memory.size()-1; j > 0; j--){
-                    if(memory[j] == stoi(card)){
-                        memory.erase(memory.begin()+j);
-                    }
-                }
+                deleteFromMemory(stoi(card));
             }
         }
     }
@@ -242,6 +240,7 @@ void Game::checkForBook(int playerNumber){
         for(int i = 0; i < 13; i++){
             //If a book is in the hand (4 of a kind), loop through hand and remove those cards
             if(rankCount[i] == 4){
+                deleteFromMemory(i);
                 int cardsRemoved = 0;
                 for(int j = 0; j < userHand.size(); j++){
                     //If the rank matches, remove the card
@@ -289,13 +288,22 @@ void Game::checkForBook(int playerNumber){
 void Game::recordToMemory(int guess){
     memory.push_back(guess);  //Saves the users guess to memory
 }
+
 void Game::deleteFromMemory(int rank){
     for(int i = 0; i < memory.size(); i++){
         if(memory[i]==rank){
-            memory.erase(memory.begin(i))
+            memory.erase(memory.begin()+i);
         }
     }
 }
-int compareHandToMemory(){
 
+int Game::compareHandToMemory(){
+    for(int i = 0; i < memory.size(); i++){
+        for(int j = 0; j < computerHand.size(); j++){
+            if(memory[i] == computerHand[j].getRank()){
+                return memory[i];
+            }
+        }
+    }
+    return 0;
 }
