@@ -71,10 +71,6 @@ void Game::dealCards(int numOfCards){
     move(deck.deck.begin(), it, back_inserter(computerHand));
     deck.deck.erase(deck.deck.begin(), it);
 
-    //Printing hand, then deck for testing purposes.
-    //printHand(1);
-    //printHand(2);
-    //printDeck();
 }
 
 void Game::drawCard(int playerNum){
@@ -262,7 +258,7 @@ void Game::checkForBook(int playerNumber){
         }
 
         for (int i = 0; i < 13; i++)
-            cout << rankCount[i];
+            cout << rankCount[i] << ", ";
 
         //Loop through rankCount to see if any have 4 --- i+1 = rank
         for(int i = 0; i < 13; i++){

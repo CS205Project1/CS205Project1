@@ -19,11 +19,16 @@ int main() {
     string modeChoice;
     cout << " --- Welcome to Go Fish ---" << endl;
     while (modeChoice != "0") {
+        string playerUserName;
+        cout << "Enter a username: " ;
+        cin >> playerUserName;
+        cout << endl;
+
         cout << "Please choose one of the following options:" << endl;
-        cout << "0 - quit" << endl;
+        cout << "0 - Quit" << endl;
         cout << "1 - Smart Mode" << endl;
         cout << "2 - Dumb Dumb Mode" << endl;
-
+        cout << ">>> ";
         std::cin >> modeChoice;
 
 
@@ -34,7 +39,7 @@ int main() {
             Game smartGame = Game();  //create new game
             string userResponse;
 
-            cout << "Welcome to Smart mode.  Is is your turn... "<< endl;
+            cout << "Welcome to Smart mode.  It is your turn... "<< endl;
 
             while(userResponse != "quit"){
 
@@ -44,9 +49,21 @@ int main() {
                     smartGame.drawCard(1);
                 }
                 smartGame.printHand(1);  //Print user hand
-                smartGame.printHand(2);
+                smartGame.printHand(2);  //Computer hand - should only be displayed when testing
                 cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
+                cout << "Make a guess >>> ";
                 std::cin >> userResponse;  //Capture user response
+
+                //Input validation. NEEDS IMPROVEMENT. Soi(string with no int) doesn't work and throws an error
+                while (stoi(userResponse) > smartGame.userHand.size() and userResponse != "?" and userResponse != "quit"){
+                    cout << "Input not accepted. Please enter the integer value that is below the card" << endl;
+                    cout << "Guess again >>> ";
+                    cin >> userResponse;
+                };
+
+                //File output
+                smartGame.fileIO(smartGame.userHand[stoi(userResponse)], playerUserName, true);
+
 
                 // If user wants help
                 if(userResponse == "?"){
@@ -90,11 +107,11 @@ int main() {
 
                 //If match is found (currently using dumb since memory is not fully implemented
                 if (smartGame.askUserDumb()){
-                    smartGame.takeCards();
+                   // smartGame.takeCards();
                     //set any books aside
                 }
                 else{
-
+                    /*
                         Ask user for card
                         If (the player has the card){
                             player answers "Yes, I do"
@@ -106,16 +123,19 @@ int main() {
                             answers "Go Fish"
                             computer draws a card from the deck.
                                     Users Turn (Goes fish if they don't have enough cards)
-                        }
+                    */
 
                 }
+
             }
-
-
         }
+
+
     }
     return 0;
 }
+
+
 
 /* =================================== </GAME> ===================================== */
 

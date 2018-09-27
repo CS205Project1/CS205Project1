@@ -34,8 +34,10 @@ g.dealCards(7); //When this is called it will shuffle the cards. Deal the cards.
  * when you use the printHands function in the checkForBook() function. I feel like I am missing a very simple point there,
  * so some help would be cool.
  */
-//    g.checkForBook();
-
+//    g.printHand(1);
+//    g.checkForBook(1);
+//    cout<<endl;
+//    g.printHand(1);
 //g.fileIO(g.computerHand[1], "Bob", true);
 
 
