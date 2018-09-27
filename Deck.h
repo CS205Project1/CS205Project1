@@ -56,4 +56,4 @@ public:
 };
 */
 
-#endif CS205PROJECT1_DECK_H
+#endif //CS205PROJECT1_DECK_H

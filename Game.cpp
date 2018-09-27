@@ -312,6 +312,31 @@ void Game::checkForBook(int playerNumber){
     }
 }
 
+//FILE IO
+void Game::fileIO(Card chosenCard, string playerUserName, bool newGame){
+    ofstream f("gameRecords.txt", ios_base::app);
+    if (f.is_open()) {
+
+        if(newGame) {
+            f << "\n\n================================== NEW GAME ==================================" << endl;
+            f << "Player Username: " << playerUserName << endl;
+            f << "------------------------------------------------------------------------------" << endl;
+            f << setw(17) << "Player Turn" << setw(8) << "|" << setw(20) << "Guess/Choice" << setw(10) << "|" << setw(20) << "Match Status" << endl;
+            f << "------------------------------------------------------------------------------" << endl;
+        };
+        if (chosenCard.getRank() == 1 or chosenCard.getRank() > 10) {
+            f << setw(13) << playerUserName << setw(12) << "|" << setw(15) << chosenCard.getRankString()
+              << chosenCard.getSuitString() << setw(15) << "|" << setw(17) << "false" << endl;
+        }else{
+            f << setw(13) << playerUserName << setw(12) << "|" << setw(15) << chosenCard.getRank()
+              << chosenCard.getSuitString() << setw(15) << "|" << setw(17) << "false" << endl;
+        };
+
+
+        f.close();
+    }
+};
+
 //MEMORY STUFF
 void Game::recordToMemory(int guess){
     memory.push_back(guess);  //Saves the users guess to memory

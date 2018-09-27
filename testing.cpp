@@ -1,8 +1,14 @@
-//
-// Created by Jean-Baptiste Bolh on 9/26/18.
-//
 
-//Game g = Game();
+#include <iostream>
+
+#include "Card.h"
+#include "Deck.h"
+#include "Game.h"
+#include <stdlib.h>
+using namespace std;
+
+int main() {
+Game g = Game();
 
 /**
  * The code below is mainly for testing the methods
@@ -29,3 +35,10 @@ g.dealCards(7); //When this is called it will shuffle the cards. Deal the cards.
  * so some help would be cool.
  */
 //    g.checkForBook();
+
+//g.fileIO(g.computerHand[1], "Bob", true);
+
+
+
+return 0;
+}

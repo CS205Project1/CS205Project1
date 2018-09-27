@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <random>
+#include <fstream>
 #include "Deck.h"
 using namespace std;
 
@@ -73,7 +74,8 @@ public:
     //Suppose to check if there is a book in hand
     void checkForBook(int playerNumber);
 
-    void gameLogic();
+    //Save guesses and game activity
+    void fileIO(Card chosenCard, string playerUserName, bool newGame = true);
 
 
     /*===========================MEMORY MANIPULATION===========================*/
@@ -91,4 +93,4 @@ public:
 
 };
 
-#endif //UNTITLED_GAME_H
+#endif //CS205PROJECT1_GAME_H

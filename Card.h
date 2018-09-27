@@ -35,4 +35,4 @@ public:
 };
 
 
-#endif CS205PROJECT1_CARD_H
+#endif //CS205PROJECT1_CARD_H
