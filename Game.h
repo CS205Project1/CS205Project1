@@ -78,7 +78,7 @@ public:
     void checkForBook(int playerNumber);
 
     //Save guesses and game activity
-    void fileIO(Card chosenCard, string playerUserName, bool newGame = true);
+    void fileIO(Card chosenCard, string playerUserName,string matchStatus, bool newGame = true);
 
 
     /*===========================MEMORY MANIPULATION===========================*/
