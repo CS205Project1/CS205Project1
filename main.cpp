@@ -1,5 +1,6 @@
 #include <iostream>
-
+#include <exception>
+#include <stdexcept>
 #include "Card.h"
 #include "Deck.h"
 #include "Game.h"
@@ -45,7 +46,7 @@ int main() {
             //Setting up the game
             Game smartGame = Game();  //create new game
             string userResponse;
-
+            int newGame; //if newGame == 0 means new game started aka round 1. Use if you want to run a peace of code only once at the beginning
             cout << "Welcome to Smart mode.  It is your turn... "<< endl;
             while(userResponse != "quit"){
 
@@ -98,16 +99,45 @@ int main() {
                         cin >> userIntResponse;
                     };
 
-                    //File output
-                    smartGame.fileIO(smartGame.userHand[userIntResponse], playerUserName, true);
+                //If user asks for a card in their hand
+                if(userIntResponse > 0 && userIntResponse <= smartGame.userHand.size()){
+                    //Checks to see if computer has card and gives more turns if user gets it right
+                    while (true) {
+                        bool returnValue = smartGame.askComputer(userIntResponse);
+                        if (returnValue == true) {
+                            smartGame.takeCards(userIntResponse,2); //Take card from computer(2)
 
-                    //If user asks for a card in their hand
-                    if (userIntResponse > 0 && userIntResponse <= smartGame.userHand.size()) {
-                        //Checks to see if computer has card and gives more turns if user gets it right
-                        if (smartGame.askComputer(userIntResponse)) {
-                            smartGame.takeCards(userIntResponse, 2); //Take card from computer(2)
+                            //Main purpose of this if statement is to only output the table header to a file in the first round
+                            //then just add rows than after
+                            if(newGame == 0) {
+                                //File output
+                                smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Found",true);
+                                newGame++;
+                            }else{
+                                //File output
+                                smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Found",false);
+                            }
+                            //SUCCESSFULLY TRADES CARDS!!!
+                            smartGame.printHand(1);
+                            smartGame.printHand(2);
+
                             cout << "You got some cards!  Here's Another turn" << endl;
                         } else {
+                            cout << "-------------------------------" << endl;
+                            cout << "Computer: Go Fish! hahahahah..." << endl;
+                            cout << "-------------------------------" << endl;
+                            smartGame.printHand(1);
+                            smartGame.printHand(2);
+                            //Main purpose of this if statement is to only output the table header to a file in the first round
+                            //then just add rows than after
+                            if(newGame == 0) {
+                                //File output
+                                smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Not Found",true);
+                                newGame++;
+                            }else{
+                                //File output
+                                smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Not Found",false);
+                            }
                             smartGame.drawCard(1); //User goes fish
                             anotherTurn = false;
                         }
@@ -117,6 +147,8 @@ int main() {
                         //Do nothing, reprompt
                     }
                 }
+
+
                 // ------------------- COMPUTER TURN ------------------- //
                 //Go fish if not enough cards
                 while(smartGame.computerHand.size() < 7){
@@ -130,6 +162,7 @@ int main() {
         }
         else if(modeChoice == "2"){
 
+            }
         }
 
 
@@ -139,68 +172,3 @@ int main() {
 
 
 
-/* =================================== </GAME> ===================================== */
-
-
-
- /*Prompt to Choose Mode
- While (not quit){
-
-    If (Choose Smart){
-    
-        Create New Game
-        Deal() - Each player receives 7 cards. (2 players)
-
-        ----- Users Turn -----
-        Go fish if not enough cards.
-        User is presented his cards and options
-        The user asks the computer for a card he needs to make a book (set of 4)
-        If (the computer has the card){
-            he answers "Yes, I do"
-            and gives the all cards of that rank to the user.
-            User gets a point for every book and the book is put aside
-            User gets another turn
-        }
-        Else (computer does not have that card){
-            answers "Go Fish"
-            and the user draws a card from the deck.
-            Computers Turn (Goes fish if they don't have enough cards)
-        }
-
-        ----- Computers Turn -----
-        Go fish if not enough cards.
-        Computer checks memory of cards
-        If (match is found){
-            asks player for that card
-            set any books aside
-        }
-        Else{
-            Ask user for card
-            If (the player has the card){
-                player answers "Yes, I do"
-                and gives the all cards of that rank to the user.
-                User gets another turn
-                User gets a point for every book and the book is put aside
-            }
-            Else (user does not have that card){
-                answers "Go Fish"
-                computer draws a card from the deck.
-                Users Turn (Goes fish if they don't have enough cards)
-            }
-        }
-    }
-    Else_if (Choose Not Smart){
-
-    }
-    else_if (Choose Quit) {
-
-    }
-    Else {
-    //Reprompt
-    }
-}
-
-//Students play until the deck is empty, and all students have emptied their hands.
-
-}
-*/
