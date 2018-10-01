@@ -58,11 +58,11 @@ int main() {
                     }
                     smartGame.printHand(1);  //Print user hand
                     smartGame.printHand(2);  //Computer hand - should only be displayed when testing
+                    cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
+                    cout << "Make a guess >>> ";
+                    cin >> userResponse;  //Capture user response
                     //Infinite loop that will break only if the userResponse is an integer.
                     while (true) {
-                        cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
-                        cout << "Make a guess >>> ";
-                        cin >> userResponse;  //Capture user response
 
                         //Break loop if the user response is an number
                         if (isNumber(userResponse)) {
@@ -115,9 +115,8 @@ int main() {
                                 smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Found",false);
                             }
                         } else {
-                            cout << "BADDDDD" << endl;
+                            cout << "Go Fish" << endl;
                             smartGame.drawCard(1); //User goes fish
-                            anotherTurn = false;
                             if(newGame == 0) {
                                 //File output
                                 smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Not Found",true);
@@ -126,6 +125,9 @@ int main() {
                                 //File output
                                 smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Not Found",false);
                             }
+                            smartGame.printHand(1);  //Print user hand
+                            smartGame.printHand(2);  //Computer hand - should only be displayed when testing
+                            anotherTurn = false;
                         }
                         smartGame.checkForBook(1); //puts aside books player 1 (adds points)
                         cout << smartGame.getUserScore() << endl;
@@ -138,10 +140,10 @@ int main() {
                 while (smartGame.computerHand.size() < 7) {
                     smartGame.drawCard(2);  //Adding a card to the computers deck
                 }
-                /*turnEndingTrigger = false;
-                while (turnEndingTrigger != true) {
-                    smartGame.askUserSmart();
-                }*/
+                bool turnEndingTrigger = true;
+                while (turnEndingTrigger == true) {
+                    turnEndingTrigger = smartGame.askUserSmart();
+                }
             }
         }
         else if(modeChoice == "2"){

@@ -197,7 +197,7 @@ bool Game::askUserSmart(){
     int askSmartRank = compareHandToMemory();
     //If askSmart = 0, there is no match in memory, so we can ask dumb
     if(askSmartRank == 0){
-        askUserDumb();
+        returnValue = askUserDumb();
     }
     else {
         for (int i = 0; i < userHand.size(); i++) {
@@ -217,18 +217,22 @@ bool Game::askUserSmart(){
                 deleteFromMemory(askSmartRank);
             }
         }
+        printHand(1);
+        printHand(2);
     }
-        return returnValue;
+    return returnValue;
 }
 bool Game::askUserDumb(){
     bool returnValue = false;
-    int rank = computerHand[1].getRank();
+    int rank = computerHand[0].getRank();
     for(int i = 0; i < userHand.size(); i++){
         if(rank == userHand[i].getRank()){
             takeCards(1,1);
             returnValue = true;
         }
     }
+    printHand(1);
+    printHand(2);
     return returnValue;
 }
 
