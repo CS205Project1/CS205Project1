@@ -166,6 +166,41 @@ void Game::printHand(int playerNum){
 
 }
 
+void Game::printCard(int playerNum){
+    for (int i = 0; i < computerHand.size(); i++) {
+        cout << " -----   ";
+    };
+    cout << endl;
+    for (int i = 0; i < computerHand.size(); i++) {
+        cout << "|     |  ";
+    };
+    cout << endl;
+
+    for (int i = 0; i < computerHand.size(); i++) {
+        if(computerHand[i].getRank() != 10) {
+            cout << "| "  << computerHand[i].getRankString() << computerHand[i].getSuitString()  << "  |  ";
+        }else{
+            cout << "| " << computerHand[i].getRankString() << computerHand[i].getSuitString() << " |  ";
+        };
+    };
+    cout << endl;
+    for (int i = 0; i < computerHand.size(); i++) {
+        cout << "|     |  ";
+    };
+    cout << endl;
+    for (int i = 0; i < computerHand.size(); i++) {
+        cout << " -----   ";
+    };
+    cout << endl;
+    for (int i = 0; i < computerHand.size(); i++) {
+        if((i+1) < 10) {
+            cout << "   " << i + 1 << "     ";
+        }else{
+            cout << "   " << i + 1 << "    ";
+        }
+    };
+    cout << endl;
+}
 //I WILL FIX IT TO CHECK FOR A VALID RESPONSE
 bool Game::inHandCheck(string userInput){
     bool returnValue = false; //0 - Not found
@@ -176,17 +211,17 @@ bool Game::inHandCheck(string userInput){
     }
     return returnValue;
 }
-bool Game::askComputer(string response){
-    bool returnValue = false;
-    int rank = userHand[stoi(response)-1].getRank();
+bool Game::askComputer(int response){
+    //bool returnValue = false;
+    int rank = userHand[response-1].getRank();
     //computer now "knows" user has this card
     recordToMemory(rank);
     for(int i = 0; i < computerHand.size(); i++){
         if(rank == computerHand[i].getRank()){
-            returnValue = true;
+            return true;
         }
     }
-    return returnValue;
+    return false;
 }
 bool Game::askUserSmart(int cardToAskFor){
     bool returnValue = false;
@@ -197,7 +232,7 @@ bool Game::askUserSmart(int cardToAskFor){
             //Erase this rank from memory
             deleteFromMemory(rank);
             //take the card from player
-            takeCards(to_string(rank),1);
+            takeCards(rank,1);
         }
     }
     return returnValue;
@@ -212,12 +247,12 @@ bool Game::askUserDumb(){
     }
     return returnValue;
 }
-void Game::takeCards(string card, int playerNum){
+void Game::takeCards(int card, int playerNum){
     if(playerNum == 2){
         //Player takes from computer
         for(int i = 0; i < computerHand.size(); i++){
             //userHan == computer
-            if(computerHand[i].getRank() == userHand[stoi(card)-1].getRank()){
+            if(computerHand[i].getRank() == userHand[card-1].getRank()){
                 userHand.push_back(computerHand[i]);
                 computerHand.erase(computerHand.begin()+i);
             }
@@ -226,11 +261,11 @@ void Game::takeCards(string card, int playerNum){
     else{
         //Computer takes from player
         for(int i = 0; i < userHand.size(); i++){
-            if(userHand[i].getRank() == computerHand[stoi(card)].getRank()){
+            if(userHand[i].getRank() == computerHand[card-1].getRank()){
                 computerHand.push_back(userHand[i]);
                 userHand.erase(userHand.begin()+i);
                 //erase this rank from memory as user no longer has it
-                deleteFromMemory(stoi(card));
+                deleteFromMemory(card);
             }
         }
     }
@@ -309,7 +344,7 @@ void Game::checkForBook(int playerNumber){
 }
 
 //FILE IO
-void Game::fileIO(Card chosenCard, string playerUserName, bool newGame){
+void Game::fileIO(Card chosenCard, string playerUserName, string matchStatus, bool newGame){
     ofstream f("gameRecords.txt", ios_base::app);
     if (f.is_open()) {
 
@@ -317,17 +352,16 @@ void Game::fileIO(Card chosenCard, string playerUserName, bool newGame){
             f << "\n\n================================== NEW GAME ==================================" << endl;
             f << "Player Username: " << playerUserName << endl;
             f << "------------------------------------------------------------------------------" << endl;
-            f << setw(17) << "Player Turn" << setw(8) << "|" << setw(20) << "Guess/Choice" << setw(10) << "|" << setw(20) << "Match Status" << endl;
+            f << setw(17) << "Player Turn" << setw(8) << "|" << setw(20) << "Guess/Choice" << setw(11) << "|" << setw(18) << "Match Status" << endl;
             f << "------------------------------------------------------------------------------" << endl;
         };
-        if (chosenCard.getRank() == 1 or chosenCard.getRank() > 10) {
+        if ((chosenCard.getRank() == 1 or chosenCard.getRank() > 10) and !newGame) {
             f << setw(13) << playerUserName << setw(12) << "|" << setw(15) << chosenCard.getRankString()
-              << chosenCard.getSuitString() << setw(15) << "|" << setw(17) << "false" << endl;
-        }else{
+              << chosenCard.getSuitString() << setw(15) << "|" << setw(19) << matchStatus << endl;
+        }else if (!newGame){
             f << setw(13) << playerUserName << setw(12) << "|" << setw(15) << chosenCard.getRank()
-              << chosenCard.getSuitString() << setw(15) << "|" << setw(17) << "false" << endl;
+              << chosenCard.getSuitString() << setw(15) << "|" << setw(19) << matchStatus << endl;
         };
-
 
         f.close();
     }

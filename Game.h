@@ -59,23 +59,24 @@ public:
 
     //Prints the hand. Made it print them out fancy
     void printHand(int playerNum);
-
+    //Print single card. Used to diplay card drawn or computer guess
+    void printCard(int playerNum);
     //HONESTLY DON'T KNOW WHY I PUT THIS IN IT MAKES NO SENSE
     //Check to see if the card is in the players hand (response validation)
     bool inHandCheck(string userResponse);
 
     //Returns true if Computer has matching card
-    bool askComputer(string response);
+    bool askComputer(int response);
     bool askUserSmart(int cardToAskFor);
     bool askUserDumb();
 
-    void takeCards(string card, int playerNum);
+    void takeCards(int card, int playerNum);
 
     //Suppose to check if there is a book in hand
     void checkForBook(int playerNumber);
 
     //Save guesses and game activity
-    void fileIO(Card chosenCard, string playerUserName, bool newGame = true);
+    void fileIO(Card chosenCard, string playerUserName, string matchStatus, bool newGame = true);
 
 
     /*===========================MEMORY MANIPULATION===========================*/

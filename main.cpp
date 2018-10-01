@@ -47,18 +47,20 @@ int main() {
             //Setting up the game
             Game smartGame = Game();  //create new game
             string userResponse;
+            int newGame; //if newGame == 0 means new game started aka round 1. Use if you want to run a peace of code only once at the beginning
             cout << "Welcome to Smart mode.  It is your turn... "<< endl;
 
-            while(userResponse != "quit"){
+            if(newGame == 0) {
+                smartGame.printHand(1);  //Print user hand
+                smartGame.printHand(2);  //Computer hand - should only be displayed when testing
+            }
 
+            while(userResponse != "quit"){
                 // ------------------- PLAYER TURN ------------------- //
                 //Draw card if not enough cards
                 while(smartGame.userHand.size() < 7){
                     smartGame.drawCard(1);
                 }
-                smartGame.printHand(1);  //Print user hand
-                smartGame.printHand(2);  //Computer hand - should only be displayed when testing
-
                 //Infinite loop that will break only is the userResponse is an integer.
                 while(true) {
                     cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
@@ -74,8 +76,8 @@ int main() {
                     try {
                         int x = stoi(userResponse);
                     }catch (invalid_argument &) {
-                        while ((userResponse != "?") and (userResponse != "quit")) {
-                            cout << "Input not accepted. Please enter the '?' for help or 'quit' to end game." << endl;
+                        while ((userResponse != "?") and (userResponse != "quit") and (userResponse != "b")) {
+                            cout << "Invalid Input! Please enter the '?' for help || 'quit' to end game || 'b' to go back to game" << endl;
                             cout << ">>> ";
                             cin >> userResponse;
                         }
@@ -83,36 +85,65 @@ int main() {
                             exit(0);
                         } else if (userResponse == "?") {
                             cout << "print help" << endl;
+                            smartGame.printHand(1);  //Print user hand
+                        }else if (userResponse == "b"){
+                            smartGame.printHand(1);  //Print user hand
                         }
                     }
                 }
-
-                //File output
-                smartGame.fileIO(smartGame.userHand[stoi(userResponse)], playerUserName, true);
-
+                //Convert user string input into an integer
+                int userIntResponse = stoi(userResponse);
 
                 // If user wants help
                 if(userResponse == "?"){
                     //printHelp()
                 }
                 //If user asks for a card in their hand
-                else if(stoi(userResponse) > 0 && stoi(userResponse) <= smartGame.userHand.size()){
+                else if(userIntResponse > 0 && userIntResponse <= smartGame.userHand.size()){
                     //Checks to see if computer has card and gives more turns if user gets it right
                     while (true) {
-                        if (smartGame.askComputer(userResponse)) {
-                            smartGame.takeCards(userResponse,2); //Take card from computer(2)
+                        bool returnValue = smartGame.askComputer(userIntResponse);
+                        if (returnValue == true) {
+                            smartGame.takeCards(userIntResponse,2); //Take card from computer(2)
 
+                            //Main purpose of this if statement is to only output the table header to a file in the first round
+                            //then just add rows than after
+                            if(newGame == 0) {
+                                //File output
+                                smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Found",true);
+                                newGame++;
+                            }else{
+                                //File output
+                                smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Found",false);
+                            }
                             //SUCCESSFULLY TRADES CARDS!!!
-                            //smartGame.printHand(1);
-                            //smartGame.printHand(2);
+                            smartGame.printHand(1);
+                            smartGame.printHand(2);
 
                             cout << "You got some cards!  Here's Another turn" << endl;
+
                         } else {
+                            cout << "-------------------------------" << endl;
+                            cout << "Computer: Go Fish! hahahahah..." << endl;
+                            cout << "-------------------------------" << endl;
+                            smartGame.printHand(1);
+                            smartGame.printHand(2);
+                            //Main purpose of this if statement is to only output the table header to a file in the first round
+                            //then just add rows than after
+                            if(newGame == 0) {
+                                //File output
+                                smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Not Found",true);
+                                newGame++;
+                            }else{
+                                //File output
+                                smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Not Found",false);
+                            }
                             smartGame.drawCard(1); //User goes fish
                             break;
                         }
                         smartGame.checkForBook(1); //puts aside books player 1 (adds points)
                         cout << smartGame.getUserScore() << endl;
+                        break;
                     }
                 }
                 else{
