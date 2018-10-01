@@ -1,10 +1,19 @@
 #include <iostream>
-
+#include <exception>
+#include <stdexcept>
 #include "Card.h"
 #include "Deck.h"
 #include "Game.h"
 #include <stdlib.h>
 using namespace std;
+
+// Returns true if s is a number else return false meaning it's a string
+bool isNumber(string s) {
+    for (int i = 0; i < s.length(); i++)
+        if (isdigit(s[i]) == false)
+            return false;
+    return true;
+}
 
 int main() {
 
@@ -38,7 +47,6 @@ int main() {
             //Setting up the game
             Game smartGame = Game();  //create new game
             string userResponse;
-
             cout << "Welcome to Smart mode.  It is your turn... "<< endl;
 
             while(userResponse != "quit"){
@@ -50,16 +58,34 @@ int main() {
                 }
                 smartGame.printHand(1);  //Print user hand
                 smartGame.printHand(2);  //Computer hand - should only be displayed when testing
-                cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
-                cout << "Make a guess >>> ";
-                std::cin >> userResponse;  //Capture user response
 
-                //Input validation. NEEDS IMPROVEMENT. Soi(string with no int) doesn't work and throws an error
-                while (stoi(userResponse) > smartGame.userHand.size() and userResponse != "?" and userResponse != "quit"){
-                    cout << "Input not accepted. Please enter the integer value that is below the card" << endl;
-                    cout << "Guess again >>> ";
-                    cin >> userResponse;
-                };
+                //Infinite loop that will break only is the userResponse is an integer.
+                while(true) {
+                    cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
+                    cout << "Make a guess >>> ";
+                    cin >> userResponse;  //Capture user response
+
+                    //Break loop if the user response is an number
+                    if(isNumber(userResponse)){
+                        break;
+                    }
+
+                    //Catch exception if the user response is not an integer
+                    try {
+                        int x = stoi(userResponse);
+                    }catch (invalid_argument &) {
+                        while ((userResponse != "?") and (userResponse != "quit")) {
+                            cout << "Input not accepted. Please enter the '?' for help or 'quit' to end game." << endl;
+                            cout << ">>> ";
+                            cin >> userResponse;
+                        }
+                        if (userResponse == "quit") {
+                            exit(0);
+                        } else if (userResponse == "?") {
+                            cout << "print help" << endl;
+                        }
+                    }
+                }
 
                 //File output
                 smartGame.fileIO(smartGame.userHand[stoi(userResponse)], playerUserName, true);
@@ -134,6 +160,7 @@ int main() {
     }
     return 0;
 }
+
 
 
 
