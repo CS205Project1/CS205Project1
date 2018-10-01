@@ -16,6 +16,9 @@ int Game::getUserScore() const {
 int Game::getComputerScore() const {
     return computerScore;
 }
+int Game::getDeck() const{
+    return deck.deck.size();
+}
 vector<Card> Game::getUserHand() const {
     return userHand;
 }
@@ -166,41 +169,6 @@ void Game::printHand(int playerNum){
 
 }
 
-void Game::printCard(int playerNum){
-    for (int i = 0; i < computerHand.size(); i++) {
-        cout << " -----   ";
-    };
-    cout << endl;
-    for (int i = 0; i < computerHand.size(); i++) {
-        cout << "|     |  ";
-    };
-    cout << endl;
-
-    for (int i = 0; i < computerHand.size(); i++) {
-        if(computerHand[i].getRank() != 10) {
-            cout << "| "  << computerHand[i].getRankString() << computerHand[i].getSuitString()  << "  |  ";
-        }else{
-            cout << "| " << computerHand[i].getRankString() << computerHand[i].getSuitString() << " |  ";
-        };
-    };
-    cout << endl;
-    for (int i = 0; i < computerHand.size(); i++) {
-        cout << "|     |  ";
-    };
-    cout << endl;
-    for (int i = 0; i < computerHand.size(); i++) {
-        cout << " -----   ";
-    };
-    cout << endl;
-    for (int i = 0; i < computerHand.size(); i++) {
-        if((i+1) < 10) {
-            cout << "   " << i + 1 << "     ";
-        }else{
-            cout << "   " << i + 1 << "    ";
-        }
-    };
-    cout << endl;
-}
 //I WILL FIX IT TO CHECK FOR A VALID RESPONSE
 bool Game::inHandCheck(string userInput){
     bool returnValue = false; //0 - Not found
@@ -212,41 +180,58 @@ bool Game::inHandCheck(string userInput){
     return returnValue;
 }
 bool Game::askComputer(int response){
-    //bool returnValue = false;
+    bool returnValue = false;
     int rank = userHand[response-1].getRank();
     //computer now "knows" user has this card
     recordToMemory(rank);
     for(int i = 0; i < computerHand.size(); i++){
         if(rank == computerHand[i].getRank()){
-            return true;
-        }
-    }
-    return false;
-}
-bool Game::askUserSmart(int cardToAskFor){
-    bool returnValue = false;
-    int rank = computerHand[cardToAskFor-1].getRank();
-    for(int i = 0; i < userHand.size(); i++){
-        if(rank == userHand[i].getRank()){
             returnValue = true;
-            //Erase this rank from memory
-            deleteFromMemory(rank);
-            //take the card from player
-            takeCards(rank,1);
         }
     }
     return returnValue;
+}
+bool Game::askUserSmart(){
+    bool returnValue = false;
+    //Get rank from memory to ask for
+    int askSmartRank = compareHandToMemory();
+    //If askSmart = 0, there is no match in memory, so we can ask dumb
+    if(askSmartRank == 0){
+        askUserDumb();
+    }
+    else {
+        for (int i = 0; i < userHand.size(); i++) {
+            //If the rank matches card in user hand
+            if (askSmartRank == userHand[i].getRank()) {
+                returnValue = true;
+                //take the card from player
+                int cardPositionInHand = 0;
+                //Loop through computers hand to find position in hand that the card has rank
+                for(int j = 0; i < computerHand.size(); j++){
+                    if(askSmartRank == computerHand[j].getRank()){
+                        cardPositionInHand = j;
+                    }
+                }
+                takeCards(cardPositionInHand, 1);  //take Card matching
+                //Erase this rank from memory
+                deleteFromMemory(askSmartRank);
+            }
+        }
+    }
+        return returnValue;
 }
 bool Game::askUserDumb(){
     bool returnValue = false;
     int rank = computerHand[1].getRank();
     for(int i = 0; i < userHand.size(); i++){
         if(rank == userHand[i].getRank()){
+            takeCards(1,1);
             returnValue = true;
         }
     }
     return returnValue;
 }
+
 void Game::takeCards(int card, int playerNum){
     if(playerNum == 2){
         //Player takes from computer
@@ -255,13 +240,14 @@ void Game::takeCards(int card, int playerNum){
             if(computerHand[i].getRank() == userHand[card-1].getRank()){
                 userHand.push_back(computerHand[i]);
                 computerHand.erase(computerHand.begin()+i);
+                recordToMemory(card);
             }
         }
     }
     else{
         //Computer takes from player
         for(int i = 0; i < userHand.size(); i++){
-            if(userHand[i].getRank() == computerHand[card-1].getRank()){
+            if(userHand[i].getRank() == computerHand[card].getRank()){
                 computerHand.push_back(userHand[i]);
                 userHand.erase(userHand.begin()+i);
                 //erase this rank from memory as user no longer has it
@@ -270,12 +256,7 @@ void Game::takeCards(int card, int playerNum){
         }
     }
 }
-/** This function is work in progress. It is suppose to check if there is a book in hand.
- ** when a book is scored, that rank should be erased from the memory vector.
- * Right now it finds and displays all matching pairs.
- *
- * Here is requirements for this method:
- *
+/* Here is requirements for this method:
  *  - It needs to check to see if there is 4 matching ranks(aka cards)
  *  - If there is then it should add them to separate vector and remove them from the hand so that it can't be used for the rest of the game
  *  - We'll use the vector of books each player has to determine the winner. The player with the most books in their vector will be the winner.
@@ -310,6 +291,7 @@ void Game::checkForBook(int playerNumber){
                 }
                 //Add one to user score
                 userScore++;
+                deleteFromMemory(rankCount[i]);  //Delete from memory
             }
         }
     }
@@ -338,13 +320,14 @@ void Game::checkForBook(int playerNumber){
                 }
                 //Add one to computer score
                 computerScore++;
+                deleteFromMemory(rankCount[i]);  //Delete from memory
             }
         }
     }
 }
 
 //FILE IO
-void Game::fileIO(Card chosenCard, string playerUserName, string matchStatus, bool newGame){
+void Game::fileIO(Card chosenCard, string playerUserName, bool newGame){
     ofstream f("gameRecords.txt", ios_base::app);
     if (f.is_open()) {
 
@@ -352,16 +335,17 @@ void Game::fileIO(Card chosenCard, string playerUserName, string matchStatus, bo
             f << "\n\n================================== NEW GAME ==================================" << endl;
             f << "Player Username: " << playerUserName << endl;
             f << "------------------------------------------------------------------------------" << endl;
-            f << setw(17) << "Player Turn" << setw(8) << "|" << setw(20) << "Guess/Choice" << setw(11) << "|" << setw(18) << "Match Status" << endl;
+            f << setw(17) << "Player Turn" << setw(8) << "|" << setw(20) << "Guess/Choice" << setw(10) << "|" << setw(20) << "Match Status" << endl;
             f << "------------------------------------------------------------------------------" << endl;
         };
-        if ((chosenCard.getRank() == 1 or chosenCard.getRank() > 10) and !newGame) {
+        if (chosenCard.getRank() == 1 or chosenCard.getRank() > 10) {
             f << setw(13) << playerUserName << setw(12) << "|" << setw(15) << chosenCard.getRankString()
-              << chosenCard.getSuitString() << setw(15) << "|" << setw(19) << matchStatus << endl;
-        }else if (!newGame){
+              << chosenCard.getSuitString() << setw(15) << "|" << setw(17) << "false" << endl;
+        }else{
             f << setw(13) << playerUserName << setw(12) << "|" << setw(15) << chosenCard.getRank()
-              << chosenCard.getSuitString() << setw(15) << "|" << setw(19) << matchStatus << endl;
+              << chosenCard.getSuitString() << setw(15) << "|" << setw(17) << "false" << endl;
         };
+
 
         f.close();
     }
@@ -381,12 +365,16 @@ void Game::deleteFromMemory(int rank){
 }
 
 int Game::compareHandToMemory(){
+    int counter = 0;
     for(int i = 0; i < memory.size(); i++){
         for(int j = 0; j < computerHand.size(); j++){
             if(memory[i] == computerHand[j].getRank()){
+                counter = counter + 1;
                 return memory[i];
             }
         }
     }
-    return 0;
+    if(counter == 0){
+        return 0;
+    }
 }
