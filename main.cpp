@@ -39,11 +39,14 @@ int main() {
         cout << ">>> ";
         std::cin >> modeChoice;
 
+        //Determine lie percent (user input or random??)
+        int lies = 50;
+
     // ------------------- SMART MODE ------------------- //
         if(modeChoice == "1"){
 
             //Setting up the game
-            Game smartGame = Game();  //create new game
+            Game smartGame = Game(lies);  //create new game
             string userResponse;
             int newGame;
             cout << "Welcome to Smart mode.  It is your turn... "<< endl;

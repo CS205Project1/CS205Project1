@@ -16,6 +16,7 @@ class Game {
 private:
     int userScore = 0;
     int computerScore = 0;
+    int liePercent = 0;
 
 public:
     Deck deck;
@@ -32,6 +33,11 @@ public:
 
     //Default constructors
     Game();
+
+    //constructor with lying
+    //lies is an int from 0-100, inclusive, that determines the percent chance
+    //that the computer will lie.
+    Game(int lies);
 
     //Getters
     int getUserScore() const;

@@ -9,6 +9,14 @@ Game::Game() {
     dealCards(7);
 }
 
+Game::Game(int lies){
+    userScore = 0;
+    computerScore = 0;
+    liePercent = lies;
+    deck = Deck();
+    dealCards(7);
+}
+
 //GETTERS
 int Game::getUserScore() const {
     return userScore;
@@ -212,6 +220,7 @@ bool Game::inHandCheck(string userInput){
 }
 bool Game::askComputer(int response){
     bool returnValue = false;
+    bool lying = false;
     int rank = userHand[response-1].getRank();
     //computer now "knows" user has this card
     recordToMemory(rank);
@@ -220,6 +229,25 @@ bool Game::askComputer(int response){
             returnValue = true;
         }
     }
+    if(returnValue){
+        //determine if the computer will lie
+        int lieRoll = rand() % 100;
+        if(lieRoll < liePercent){
+            lying = true;
+            //for testing purposes
+            cout << "this will be a lie" << endl;
+        }
+        else{
+            cout << "I'm telling the truth" << endl;
+        }
+
+    }
+
+    /*
+     * RESOLVE THE LIE HERE
+     * Player may challenge the lie
+     * penalty for challenging when there is no lie??
+     */
     return returnValue;
 }
 bool Game::askUserSmart(){
