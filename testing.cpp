@@ -37,10 +37,8 @@ g.dealCards(7); //When this is called it will shuffle the cards. Deal the cards.
 //    g.printHand(1);
 //    g.checkForBook(1);
 //    cout<<endl;
-//    g.printHand(1);
-//g.fileIO(g.computerHand[1], "Bob", true);
-
-
-
+    //g.printHand(1);
+    g.checkForBook(1);
+    //g.printHand(1);
 return 0;
 }

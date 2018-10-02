@@ -311,69 +311,81 @@ void Game::takeCards(int card, int playerNum){
  *  - If there is then it should add them to separate vector and remove them from the hand so that it can't be used for the rest of the game
  *  - We'll use the vector of books each player has to determine the winner. The player with the most books in their vector will be the winner.
  */
-void Game::checkForBook(int playerNumber){
-    //Create an array to hold matching rank count
-    int rankCount [13] = {0,0,0,0,0,0,0,0,0,0,0,0,0}; //Holds 13 ranks
+bool Game::checkForBook(int playerNum){
+    bool bookFound = false;
 
-    //User Check
-    if(playerNumber == 1){
+    //Create an array to hold matching rank count
+    int rankCount[13] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //Holds 13 ranks
+
+    if(playerNum == 1) {
         //Loop through each card in hand and add matching ranks
-        for(int i = 0; i < userHand.size(); i++){
-            //Add one to rankCount@ current card rank (-1 because of arrays)
-            rankCount[userHand[i].getRank()-1] = rankCount[userHand[i].getRank()-1] + 1;
+
+        for (int i = 0; i < 13; i++) {
+            int count = 0;
+            for (int j = 0; j < userHand.size(); j++) {
+                //Add one to rankCount@ current card rank (-1 because of arrays)
+                if (i == userHand[j].getRank()) {
+                    count++;
+                }
+            }
+            rankCount[i - 1] += count;
         }
 
-//        for (int i = 0; i < 13; i++)
-//            cout << rankCount[i] << ", ";
-
         //Loop through rankCount to see if any have 4 --- i+1 = rank
-        for(int i = 0; i < 13; i++){
+        for (int i = 0; i < 13; i++) {
             //If a book is in the hand (4 of a kind), loop through hand and remove those cards
-            if(rankCount[i] == 4){
+            if (rankCount[i] == 4) {
                 deleteFromMemory(i);
                 int cardsRemoved = 0;
-                for(int j = 0; j < userHand.size(); j++){
+
+                for (int j = 0; j < userHand.size(); j++) {
                     //If the rank matches, remove the card
-                    if(userHand[j].getRank() == i+1){
-                        userHand.erase(userHand.begin()+j);
+                    if (userHand[j].getRank() == i + 1) {
+                        userHand.erase(userHand.begin() + j);
                         cardsRemoved++;
+                        j = -1;
                     }
                 }
-                //Add one to user score
-                userScore++;
+
+                bookFound = true;
                 deleteFromMemory(rankCount[i]);  //Delete from memory
             }
         }
-    }
-    //Computer Check -- SAME AS USER HAND
-    else{
-        //Loop through each card in hand and add matching ranks
-        for(int i = 0; i < computerHand.size(); i++){
-            //Add one to rankCount@ current card rank (-1 because of arrays)
-            rankCount[computerHand[i].getRank()-1] = rankCount[computerHand[i].getRank()-1] + 1;
+    }else{  //Code blow is same as the one above, but for the computer hand.
+        for (int i = 0; i < 13; i++) {
+            int count = 0;
+            for (int j = 0; j < computerHand.size(); j++) {
+                //Add one to rankCount@ current card rank (-1 because of arrays)
+                if (i == computerHand[j].getRank()) {
+                    count++;
+                }
+            }
+            rankCount[i - 1] += count;
         }
-
-        for (int i = 0; i < 13; i++)
-            cout << rankCount[i];
 
         //Loop through rankCount to see if any have 4 --- i+1 = rank
-        for(int i = 0; i < 13; i++){
+        for (int i = 0; i < 13; i++) {
             //If a book is in the hand (4 of a kind), loop through hand and remove those cards
-            if(rankCount[i] == 4){
+            if (rankCount[i] == 4) {
+                deleteFromMemory(i);
                 int cardsRemoved = 0;
-                for(int j = 0; j < computerHand.size(); j++){
+
+                for (int j = 0; j < computerHand.size(); j++) {
                     //If the rank matches, remove the card
-                    if(computerHand[j].getRank() == i+1){
-                        computerHand.erase(computerHand.begin()+j);
+                    if (computerHand[j].getRank() == i + 1) {
+                        computerHand.erase(computerHand.begin() + j);
                         cardsRemoved++;
+                        j = -1;
                     }
                 }
-                //Add one to computer score
-                computerScore++;
+
+                bookFound = true;
                 deleteFromMemory(rankCount[i]);  //Delete from memory
             }
         }
     }
+
+    return bookFound;
 }
 
 //FILE IO

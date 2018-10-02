@@ -79,7 +79,7 @@ public:
     void takeCards(int card, int playerNum);
 
     //Suppose to check if there is a book in hand
-    void checkForBook(int playerNumber);
+    bool checkForBook(int playerNum);
 
     //Save guesses and game activity
     void fileIO(Card chosenCard, string playerUserName,string matchStatus, bool newGame = true);

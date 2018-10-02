@@ -58,6 +58,16 @@ int main() {
                     }
                     smartGame.printHand(1);  //Print user hand
                     smartGame.printHand(2);  //Computer hand - should only be displayed when testing
+
+                    //Check for books incase there is a book when they are dealt cards if there is a book print hand
+                    bool playerHasBook = smartGame.checkForBook(1);
+                    bool computerHasBook = smartGame.checkForBook(2);
+                    if (playerHasBook == true || computerHasBook == true) {
+                        cout << "Books found in hand. Hand after book has been taken out: " << endl;
+                        smartGame.printHand(1);  //Print user hand
+                        smartGame.printHand(2);  //Computer hand - should only be displayed when testing
+                    }
+
                     cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
                     cout << playerUserName << " make a guess >>> ";
                     cin >> userResponse;  //Capture user response
@@ -135,8 +145,6 @@ int main() {
                             //smartGame.printHand(2);  //Computer hand - should only be displayed when testing
                             anotherTurn = false;
                         }
-                        smartGame.checkForBook(1); //puts aside books player 1 (adds points)
-                        //cout << smartGame.getUserScore() << endl;
                     } else {
                         //Do nothing, reprompt
                     }
