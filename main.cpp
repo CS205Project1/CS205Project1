@@ -52,8 +52,8 @@ int main() {
                 // ------------------- PLAYER TURN ------------------- //
                 //Draw card if not enough cards
                 bool anotherTurn = true;
-                while (anotherTurn == true) {
-                    while (smartGame.userHand.size() < 7 and smartGame.getDeck() != 0) {
+                while (anotherTurn) {
+                    while (smartGame.userHand.size() < 1 and smartGame.getDeck() != 0) {
                         smartGame.drawCard(1);
                     }
                     smartGame.printHand(1);  //Print user hand
@@ -125,8 +125,8 @@ int main() {
                                 //File output
                                 smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Not Found",false);
                             }
-                            smartGame.printHand(1);  //Print user hand
-                            smartGame.printHand(2);  //Computer hand - should only be displayed when testing
+                            //smartGame.printHand(1);  //Print user hand
+                            //smartGame.printHand(2);  //Computer hand - should only be displayed when testing
                             anotherTurn = false;
                         }
                         smartGame.checkForBook(1); //puts aside books player 1 (adds points)
@@ -137,11 +137,11 @@ int main() {
                 }
                 // ------------------- COMPUTER TURN ------------------- //
                 //Go fish if not enough cards
-                while (smartGame.computerHand.size() < 7) {
+                while (smartGame.computerHand.size() < 1) {
                     smartGame.drawCard(2);  //Adding a card to the computers deck
                 }
                 bool turnEndingTrigger = true;
-                while (turnEndingTrigger == true) {
+                while (turnEndingTrigger) {
                     turnEndingTrigger = smartGame.askUserSmart();
                 }
             }

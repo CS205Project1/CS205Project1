@@ -217,22 +217,30 @@ bool Game::askUserSmart(){
                 deleteFromMemory(askSmartRank);
             }
         }
-        printHand(1);
-        printHand(2);
+        //printHand(1);
+        //printHand(2);
     }
     return returnValue;
 }
 bool Game::askUserDumb(){
     bool returnValue = false;
     int rank = computerHand[0].getRank();
+    cout << "The computer asks for your " << rank << "'s" << endl;
     for(int i = 0; i < userHand.size(); i++){
         if(rank == userHand[i].getRank()){
             takeCards(1,1);
             returnValue = true;
         }
     }
-    printHand(1);
-    printHand(2);
+    //printHand(1);
+    //printHand(2);
+    if(!returnValue){
+        cout << "...but you don't have any. Go fish." << endl;
+        drawCard(2);
+    }
+    else{
+        cout << "The computer took card(s) from you." << endl;
+    }
     return returnValue;
 }
 
@@ -373,7 +381,7 @@ int Game::compareHandToMemory(){
     for(int i = 0; i < memory.size(); i++){
         for(int j = 0; j < computerHand.size(); j++){
             if(memory[i] == computerHand[j].getRank()){
-                counter = counter + 1;
+                counter++;
                 return memory[i];
             }
         }
