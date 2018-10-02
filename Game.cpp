@@ -169,6 +169,37 @@ void Game::printHand(int playerNum){
 
 }
 
+void Game::printCard(int playerNum, int cardIndex){
+    if(playerNum == 1) {
+        cout << " -----   " << endl;
+        cout << "|     |  " << endl;
+
+        if(userHand[cardIndex].getRank() != 10) {
+            cout << "| "  << userHand[cardIndex].getRankString() << userHand[cardIndex].getSuitString()  << "  |  " << endl;
+        }else{
+            cout << "| " << userHand[cardIndex].getRankString() << userHand[cardIndex].getSuitString() << " |  " << endl;
+        };
+
+        cout << "|     |  " << endl;
+        cout << " -----   " << endl;
+
+    }else if (playerNum == 2) {
+        cout << " -----   " << endl;
+        cout << "|     |  " << endl;
+
+        if(computerHand[cardIndex].getRank() != 10) {
+            cout << "| "  << computerHand[cardIndex].getRankString() << computerHand[cardIndex].getSuitString()  << "  |  " << endl;
+        }else{
+            cout << "| " << computerHand[cardIndex].getRankString() << computerHand[cardIndex].getSuitString() << " |  " << endl;
+        };
+
+        cout << "|     |  " << endl;
+        cout << " -----   " << endl;
+    }else{
+        cout << "CAN'T DISPLAY PLAYER HAND! For printHand(int playerHand) please specify 1 or 2 (1 = user player. 2 = computer player)" << endl;
+    }
+};
+
 //I WILL FIX IT TO CHECK FOR A VALID RESPONSE
 bool Game::inHandCheck(string userInput){
     bool returnValue = false; //0 - Not found
@@ -222,14 +253,22 @@ bool Game::askUserSmart(){
     }
     return returnValue;
 }
+
 bool Game::askUserDumb(){
     bool returnValue = false;
-    int rank = computerHand[0].getRank();
-    cout << "The computer asks for your " << rank << "'s" << endl;
+    //seeding rand
+    srand(time(NULL));
+    //Generates a rand int between 0 and userHand size
+    int randGuess = rand() % userHand.size();
+
+    cout << "Computer: Asks for" << endl;
+    printCard(2, randGuess); //print the guess
+
     for(int i = 0; i < userHand.size(); i++){
-        if(rank == userHand[i].getRank()){
-            takeCards(1,1);
+        if(computerHand[randGuess].getRank() == userHand[i].getRank()){
+            takeCards(randGuess,1);
             returnValue = true;
+            break;
         }
     }
     //printHand(1);
@@ -255,8 +294,7 @@ void Game::takeCards(int card, int playerNum){
                 recordToMemory(card);
             }
         }
-    }
-    else{
+    }else{
         //Computer takes from player
         for(int i = 0; i < userHand.size(); i++){
             if(userHand[i].getRank() == computerHand[card].getRank()){
@@ -285,8 +323,8 @@ void Game::checkForBook(int playerNumber){
             rankCount[userHand[i].getRank()-1] = rankCount[userHand[i].getRank()-1] + 1;
         }
 
-        for (int i = 0; i < 13; i++)
-            cout << rankCount[i] << ", ";
+//        for (int i = 0; i < 13; i++)
+//            cout << rankCount[i] << ", ";
 
         //Loop through rankCount to see if any have 4 --- i+1 = rank
         for(int i = 0; i < 13; i++){

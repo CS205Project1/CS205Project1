@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <random>
 #include <fstream>
+#include <ctime>
 #include "Deck.h"
 using namespace std;
 
@@ -60,6 +61,9 @@ public:
 
     //Prints the hand. Made it print them out fancy
     void printHand(int playerNum);
+
+    //Prints a single card
+    void printCard(int playerNum, int cardIndex);
 
     //HONESTLY DON'T KNOW WHY I PUT THIS IN IT MAKES NO SENSE
     //Check to see if the card is in the players hand (response validation)
