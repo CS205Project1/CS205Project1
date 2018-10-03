@@ -66,7 +66,7 @@ public:
     void dealCards(int numOfCards);
 
     //Draws card from the top of the deck and removes it from the deck and adds it to the player or computer hand
-    void drawCard(int playerNum, int handSize); // 1 = Real Player, 2 = computer player
+    void drawCard(int playerNum, int handSize, int printOrNot); // 1 = Real Player, 2 = computer player
 
     //Prints the hand. Made it print them out fancy
     void printHand(int playerNum);

@@ -25,7 +25,7 @@ int Game::getComputerScore() const {
     return computerScore;
 }
 int Game::getDeckSize() const{
-    return deck.deck.size();
+    return (int) deck.deck.size();
 }
 vector<Card> Game::getUserHand() const {
     return userHand;
@@ -90,7 +90,7 @@ void Game::dealCards(int numOfCards){
 
 }
 
-void Game::drawCard(int playerNum, int handSize){
+void Game::drawCard(int playerNum, int handSize, int printOrNot){
     auto it = next(deck.deck.begin(), 1); //initially draw 1 card
     int numCardsToDraw = 1;
     //if hand size for either player is less than 7, then draw until the player has 7 cards
@@ -118,7 +118,9 @@ void Game::drawCard(int playerNum, int handSize){
     }
 
     //PRINT CARDS THAT HAVE BEEN DRAWN
-    printDrawnCards(playerNum, numCardsToDraw);
+    if(printOrNot == 1) {
+        printDrawnCards(playerNum, numCardsToDraw);
+    };
 
 }
 
@@ -132,7 +134,7 @@ bool Game::inHandCheck(string userInput){
     }
     return returnValue;
 }
-bool Game::askComputer(int response){ //7
+bool Game::askComputer(int response){
     bool returnValue = false;
     int rank = userHand[response-1].getRank();
     //computer now "knows" user has this card
@@ -207,12 +209,11 @@ bool Game::askUserDumb(){
             break;
         }
     }
-    //printHand(1);
-    //printHand(2);
+
     if(!returnValue){
         cout << getPlayerName() << ": Don't have any. Go fish!" << endl;
         cout << "Computer: Drew " << endl;
-        drawCard(2, computerHand.size());
+        drawCard(2, (int) computerHand.size(),1);
         computerFileIO(2, randGuess); //output computer guess as no match
     }
     else{
@@ -231,6 +232,7 @@ void Game::takeCards(int card, int playerNum){
             if(computerHand[i].getRank() == userHand[card-1].getRank()){
                 userHand.push_back(computerHand[i]);
                 computerHand.erase(computerHand.begin()+i);
+                i = 0;
             }
         }
     }else{
@@ -241,6 +243,7 @@ void Game::takeCards(int card, int playerNum){
                 userHand.erase(userHand.begin()+i);
                 //erase this rank from memory as user no longer has it
                 deleteFromMemory(card);
+                i = 0;
             }
         }
     }
@@ -472,16 +475,16 @@ void Game::printHand(int playerNum){
 
 void Game::printDrawnCards(int playerNum, int cardIndexs){
     if(playerNum == 1) {
-        for (int i = (userHand.size() - cardIndexs); i < userHand.size(); i++) {
+        for (int i = ((int) userHand.size() - cardIndexs); i < userHand.size(); i++) {
             cout << " -----   ";
         };
         cout << endl;
-        for (int i = (userHand.size() - cardIndexs); i < userHand.size(); i++) {
+        for (int i = ((int) userHand.size() - cardIndexs); i < userHand.size(); i++) {
             cout << "|     |  ";
         };
         cout << endl;
 
-        for (int i = (userHand.size() - cardIndexs); i < userHand.size(); i++) {
+        for (int i = ((int) userHand.size() - cardIndexs); i < userHand.size(); i++) {
             if(userHand[i].getRank() != 10) {
                 cout << "| "  << userHand[i].getRankString() << userHand[i].getSuitString()  << "  |  ";
             }else{
@@ -489,26 +492,26 @@ void Game::printDrawnCards(int playerNum, int cardIndexs){
             };
         };
         cout << endl;
-        for (int i = (userHand.size() - cardIndexs); i < userHand.size(); i++) {
+        for (int i = ((int) userHand.size() - cardIndexs); i < userHand.size(); i++) {
             cout << "|     |  ";
         };
         cout << endl;
-        for (int i = (userHand.size() - cardIndexs); i < userHand.size(); i++) {
+        for (int i = ((int) userHand.size() - cardIndexs); i < userHand.size(); i++) {
             cout << " -----   ";
         };
         cout << endl;
 
     }else if (playerNum == 2) {
-        for (int i = (computerHand.size() - cardIndexs); i < computerHand.size(); i++)  {
+        for (int i = ((int) computerHand.size() - cardIndexs); i < computerHand.size(); i++)  {
             cout << " -----   ";
         };
         cout << endl;
-        for (int i = (computerHand.size() - cardIndexs); i < computerHand.size(); i++) {
+        for (int i = ((int) computerHand.size() - cardIndexs); i < computerHand.size(); i++) {
             cout << "|     |  ";
         };
         cout << endl;
 
-        for (int i = (computerHand.size() - cardIndexs); i < computerHand.size(); i++) {
+        for (int i = ((int) computerHand.size() - cardIndexs); i < computerHand.size(); i++) {
             if(computerHand[i].getRank() != 10) {
                 cout << "| "  << computerHand[i].getRankString() << computerHand[i].getSuitString()  << "  |  ";
             }else{
@@ -516,11 +519,11 @@ void Game::printDrawnCards(int playerNum, int cardIndexs){
             };
         };
         cout << endl;
-        for (int i = (computerHand.size() - cardIndexs); i < computerHand.size(); i++) {
+        for (int i = ((int) computerHand.size() - cardIndexs); i < computerHand.size(); i++) {
             cout << "|     |  ";
         };
         cout << endl;
-        for (int i = (computerHand.size() - cardIndexs); i < computerHand.size(); i++) {
+        for (int i = ((int) computerHand.size() - cardIndexs); i < computerHand.size(); i++) {
             cout << " -----   ";
         };
         cout << endl;
