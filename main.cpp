@@ -34,7 +34,7 @@ int main() {
     while (modeChoice != "0") {
         string playerUserName;
         cout << "Enter a username: " ;
-:        cin >> playerUserName;
+        cin >> playerUserName;
         smartGame.setPlayerName(playerUserName);
         cout << endl;
 
@@ -150,20 +150,15 @@ int main() {
                                 //File output
                                 smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Not Found",false);
                             }
-                            break; //turn ended break loop
+                            //turn ended break loop
+                            break;
                         }
                     }
                 }
 
                 // ------------------- COMPUTER TURN ------------------- //
 
-                if(smartGame.computerHand.size() < 7 and smartGame.getDeckSize() !=0){
-                    smartGame.drawCard(2,(int) smartGame.computerHand.size(),0);
-                }
-                bool turnEndingTrigger = true;
-                while (turnEndingTrigger) {
-                    turnEndingTrigger = smartGame.askUserSmart();
-                }
+                smartGame.computerTurn();
             }
         }
         else if(modeChoice == "2"){

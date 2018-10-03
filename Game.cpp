@@ -66,8 +66,6 @@ void Game::setPlayerName(string playerName) {
     Game::playerName = playerName;
 }
 
-
-
 void Game::shuffleDeck(){
     random_device rd;
     mt19937 g(rd());
@@ -93,28 +91,13 @@ void Game::dealCards(int numOfCards){
 void Game::drawCard(int playerNum, int handSize, int printOrNot){
     auto it = next(deck.deck.begin(), 1); //initially draw 1 card
     int numCardsToDraw = 1;
-    //if hand size for either player is less than 7, then draw until the player has 7 cards
-    if (handSize < 7 and getDeckSize() > 0) {
-        numCardsToDraw = 7-handSize;
 
-        //check to see if there is enough cards in the deck to draw. If there is player draws until they have 7
-        if(numCardsToDraw < getDeckSize()) {
-            it = next(deck.deck.begin(), numCardsToDraw);
-        //if there isn't enough cards to make the player hand size 7, then just draw all the remaining cards in the deck
-        }else{
-            it = next(deck.deck.begin(), getDeckSize());
-            numCardsToDraw = getDeckSize();
-        }
-    }
-
-    if(playerNum == 1){
+    if(playerNum == 1 and getDeckSize() >0){
         move(deck.deck.begin(), it, back_inserter(userHand));
         deck.deck.erase(deck.deck.begin(), it);
-    }else if (playerNum == 2){
+    }else if (playerNum == 2 and getDeckSize() >0){
         move(deck.deck.begin(), it, back_inserter(computerHand));
         deck.deck.erase(deck.deck.begin(), it);
-    }else{
-        cout << "CARD NOT DRAWN! For drawCard please specify 1 or 2 (1 = user player. 2 = computer player)" << endl;
     }
 
     //PRINT CARDS THAT HAVE BEEN DRAWN
@@ -133,6 +116,14 @@ bool Game::inHandCheck(string userInput){
         }
     }
     return returnValue;
+}
+
+void Game::computerTurn(){
+    bool turnEndingTrigger = true;
+
+    while (turnEndingTrigger) {
+        turnEndingTrigger = askUserSmart();
+    }
 }
 bool Game::askComputer(int response){
     bool returnValue = false;
@@ -157,10 +148,11 @@ bool Game::askComputer(int response){
             //for testing
             cout << "I'm telling the truth" << endl;
         }
-
     }
     return returnValue;
 }
+
+
 bool Game::askUserSmart(){
     bool returnValue = false;
     //Get rank from memory to ask for
@@ -186,8 +178,6 @@ bool Game::askUserSmart(){
                 deleteFromMemory(askSmartRank);
             }
         }
-        //printHand(1);
-        //printHand(2);
     }
     return returnValue;
 }
@@ -197,7 +187,7 @@ bool Game::askUserDumb(){
     //seeding rand
     srand(time(NULL));
     //Generates a rand int between 0 and computerHand size
-    int randGuess = rand() % computerHand.size();
+    int randGuess = rand() % (int) computerHand.size();
 
     cout << "Computer: Asks for" << endl;
     printComputerGuessCard(randGuess); //print the guessed card (for real player to see
@@ -534,6 +524,7 @@ void Game::printDrawnCards(int playerNum, int cardIndexs){
 };
 
 void Game::printComputerGuessCard(int cardIndex){
+
     cout << " -----   " << endl;
     cout << "|     |  " << endl;
     if(computerHand[cardIndex].getRank() != 10) {

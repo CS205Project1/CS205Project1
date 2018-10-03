@@ -94,6 +94,9 @@ public:
     //Suppose to check if there is a book in hand
     bool checkForBook(int playerNum);
 
+    //Computer turn
+    void computerTurn();
+
     //Save guesses and game activity
     void fileIO(Card chosenCard, string playerUserName,string matchStatus, bool newGame = true);
     void computerFileIO(int matchStatus, int computerGuess);
