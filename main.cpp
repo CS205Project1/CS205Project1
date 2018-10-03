@@ -23,6 +23,9 @@ int main() {
 
     /* =================================== <GAME> ===================================== */
 
+    //Setting up the game
+    Game smartGame = Game();  //create new game
+
     //Prompt to Choose Mode - While (not quit)
     string modeChoice;
     cout << " --- Welcome to Go Fish ---" << endl;
@@ -30,6 +33,7 @@ int main() {
         string playerUserName;
         cout << "Enter a username: " ;
         cin >> playerUserName;
+        smartGame.setPlayerName(playerUserName);
         cout << endl;
 
         cout << "Please choose one of the following options:" << endl;
@@ -45,8 +49,6 @@ int main() {
     // ------------------- SMART MODE ------------------- //
         if(modeChoice == "1"){
 
-            //Setting up the game
-            Game smartGame = Game(lies);  //create new game
             string userResponse;
             int newGame;
             cout << "Welcome to Smart mode.  It is your turn... "<< endl;
@@ -54,10 +56,9 @@ int main() {
 
                 // ------------------- PLAYER TURN ------------------- //
                 //Draw card if not enough cards
-                bool anotherTurn = true;
-                while (anotherTurn) {
-                    while (smartGame.userHand.size() < 1 and smartGame.getDeck() != 0) {
-                        smartGame.drawCard(1);
+                while (true) {
+                    if (smartGame.userHand.size() < 7 and smartGame.getDeckSize() != 0) {
+                        smartGame.drawCard(1,smartGame.userHand.size());
                     }
                     smartGame.printHand(1);  //Print user hand
                     smartGame.printHand(2);  //Computer hand - should only be displayed when testing
@@ -129,12 +130,10 @@ int main() {
                                 smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Found",false);
                             }
                         } else {
-
                             cout << "\nComputer: 'Go Fish! You must draw a card.'" << endl;
-                            smartGame.drawCard(1); //User goes fish
                             cout<<endl;
                             cout << playerUserName << ": You Drew " << endl;
-                            smartGame.printCard(1, smartGame.userHand.size()-1);
+                            smartGame.drawCard(1, smartGame.userHand.size());
                             cout<<endl;
                             if(newGame == 0) {
                                 //File output
@@ -144,27 +143,14 @@ int main() {
                                 //File output
                                 smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Not Found",false);
                             }
-                            //smartGame.printHand(1);  //Print user hand
-                            //smartGame.printHand(2);  //Computer hand - should only be displayed when testing
-                            anotherTurn = false;
+                            break; //turn ended break loop
                         }
-                    } else {
-                        //Do nothing, reprompt
                     }
                 }
+
                 // ------------------- COMPUTER TURN ------------------- //
                 //Go fish if not enough cards
-                int numOfCardsComputerDrew = 0;
-                if (smartGame.computerHand.size() < 7 and smartGame.getDeck() > 0) {
-                    while(smartGame.computerHand.size() < 7 and smartGame.getDeck() > 0) {
-                        smartGame.drawCard(2);  //Adding a card to the computers deck
-                        numOfCardsComputerDrew++;
-                    }
-                    cout << "-------------------------------------------" << endl;
-                    cout << "Computer: Drew " << numOfCardsComputerDrew << " card/s." << endl;
-                    cout << "-------------------------------------------" << endl;
 
-                }
                 bool turnEndingTrigger = true;
                 while (turnEndingTrigger) {
                     turnEndingTrigger = smartGame.askUserSmart();

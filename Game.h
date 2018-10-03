@@ -16,6 +16,7 @@ class Game {
 private:
     int userScore = 0;
     int computerScore = 0;
+    string playerName;
     int liePercent = 0;
 
 public:
@@ -42,7 +43,8 @@ public:
     //Getters
     int getUserScore() const;
     int getComputerScore() const;
-    int getDeck() const;
+    int getDeckSize() const;
+    string getPlayerName() const;
     vector<Card> getUserHand() const;
     vector<Card> getComputerHand() const;
     vector<Card> getUserBooks() const;
@@ -55,6 +57,7 @@ public:
     void setComputerHand(vector<Card> &computerHand);
     void setUserBooks(vector<Card> &userBooks);
     void setComputerBooks(vector<Card> &computerBooks);
+    void setPlayerName(string playerName);
 
     //Suffles the deck
     void shuffleDeck();
@@ -63,13 +66,17 @@ public:
     void dealCards(int numOfCards);
 
     //Draws card from the top of the deck and removes it from the deck and adds it to the player or computer hand
-    void drawCard(int playerNum); // 1 = Real Player, 2 = computer player
+    void drawCard(int playerNum, int handSize); // 1 = Real Player, 2 = computer player
 
     //Prints the hand. Made it print them out fancy
     void printHand(int playerNum);
 
-    //Prints a single card
-    void printCard(int playerNum, int cardIndex);
+    //Prints cards that have been drawn by players
+    void printDrawnCards(int playerNum, int cardIndexs);
+
+    //Prints a single card to display the card the computer guessed
+    void printComputerGuessCard(int cardIndex);
+
 
     //HONESTLY DON'T KNOW WHY I PUT THIS IN IT MAKES NO SENSE
     //Check to see if the card is in the players hand (response validation)
@@ -89,7 +96,7 @@ public:
 
     //Save guesses and game activity
     void fileIO(Card chosenCard, string playerUserName,string matchStatus, bool newGame = true);
-
+    void computerFileIO(int matchStatus, int computerGuess);
 
     /*===========================MEMORY MANIPULATION===========================*/
     //records the guess to memory
