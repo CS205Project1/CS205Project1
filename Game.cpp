@@ -118,13 +118,6 @@ bool Game::inHandCheck(string userInput){
     return returnValue;
 }
 
-void Game::computerTurn(){
-    bool turnEndingTrigger = true;
-
-    while (turnEndingTrigger) {
-        turnEndingTrigger = askUserSmart();
-    }
-}
 bool Game::askComputer(int response){
     bool returnValue = false;
     int rank = userHand[response-1].getRank();
