@@ -7,6 +7,7 @@ Game::Game() {
     computerScore = 0;
     deck = Deck();
     dealCards(7);
+    shuffleDeck();
 }
 
 Game::Game(int lies){
@@ -15,6 +16,7 @@ Game::Game(int lies){
     liePercent = lies;
     deck = Deck();
     dealCards(7);
+    shuffleDeck();
 }
 
 //GETTERS
@@ -65,8 +67,6 @@ void Game::setUserBooks(vector<Card> &userBooks) {
 void Game::setPlayerName(string playerName) {
     Game::playerName = playerName;
 }
-
-
 
 void Game::shuffleDeck(){
     random_device rd;
@@ -124,6 +124,8 @@ bool Game::askComputer(int response){
         }
     }
     if(returnValue){
+        //seeding rand
+        srand(time(NULL));
         //determine if the computer will lie
         int lieRoll = rand() % 100;
         //if the roll is below the preset lie percentage, act like
@@ -307,6 +309,34 @@ bool Game::checkForBook(int playerNum){
     }
 
     return bookFound;
+}
+
+void Game::checkBookAndPrint(){
+    //Check for books incase there is a book when they are dealt cards if there is a book print hand
+    bool playerHasBook = checkForBook(1);
+    if (playerHasBook) {
+        cout << "---------------------------------------------------------" << endl;
+        cout << "Books found in " << getPlayerName() << "'s hand. Hand after book has been taken out: " << endl;
+        cout << "---------------------------------------------------------" << endl;
+        drawCard(1,(int) userHand.size(),0);
+        printHand(1);  //Print user hand
+    }
+
+    bool computerHasBook = checkForBook(2);
+    if (computerHasBook){
+        cout << "---------------------------------------------------------" << endl;
+        cout << "Books found in Computer hand. Hand after book has been taken out: " << endl;
+        cout << "---------------------------------------------------------" << endl;
+        drawCard(2,(int) computerHand.size(),0);
+        printHand(2);  //Computer hand - should only be displayed when testing
+    }
+
+    if (playerHasBook || computerHasBook){
+        cout << "-------------------------------------------------" << endl;
+        cout << "SCORES: " << endl;
+        cout << "User: " + to_string(getUserScore()) + "   Computer: " +  to_string(getComputerScore()) << endl;
+        cout << "-------------------------------------------------" << endl;
+    }
 }
 
 //========================================== FILE IO ==========================================//

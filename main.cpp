@@ -21,7 +21,7 @@ int main() {
 
     //Setting up the game
     //Determine lie percent (user input or random??)
-    int lies = 50;
+    int lies = 10;
     Game smartGame = Game(lies);  //create new game
 
     //Prompt to Choose Mode - While (not quit)
@@ -55,23 +55,8 @@ int main() {
                 smartGame.printHand(1);  //Print user hand
                 smartGame.printHand(2);  //Computer hand - should only be displayed when testing
 
-                //Check for books incase there is a book when they are dealt cards if there is a book print hand
-                bool playerHasBook = smartGame.checkForBook(1);
-                if (playerHasBook) {
-                    cout << "---------------------------------------------------------" << endl;
-                    cout << "Books found in " << playerUserName << "'s hand. Hand after book has been taken out: " << endl;
-                    cout << "---------------------------------------------------------" << endl;
-                    smartGame.drawCard(1,(int) smartGame.userHand.size(),0);
-                    smartGame.printHand(1);  //Print user hand
-                }
-                bool computerHasBook = smartGame.checkForBook(2);
-                if (computerHasBook){
-                    cout << "---------------------------------------------------------" << endl;
-                    cout << "Books found in Computer hand. Hand after book has been taken out: " << endl;
-                    cout << "---------------------------------------------------------" << endl;
-                    smartGame.drawCard(2,(int) smartGame.computerHand.size(),0);
-                    smartGame.printHand(2);  //Computer hand - should only be displayed when testing
-                }
+                //Checks book, prints them if there is any and prints the scores
+                smartGame.checkBookAndPrint();
 
                 cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
                 cout << playerUserName << " make a guess >>> ";
@@ -150,17 +135,9 @@ int main() {
                     }
                 }
             }
-            if(smartGame.userHand.size() == 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
-                modeChoice = "0";
-            }
-            //making sure that we've recorded every book
-            if(smartGame.userHand.size() > 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
-                smartGame.checkForBook(1);
-            }
-            if(smartGame.computerHand.size() > 0 && smartGame.userHand.size() == 0 && smartGame.getDeckSize() == 0){
-                smartGame.checkForBook(2);
-            }
+
             // ------------------- COMPUTER TURN ------------------- //
+            smartGame.checkBookAndPrint();
             bool turnEndingTrigger = true;
             while (turnEndingTrigger) {
                 // Use Smart mode (memory)
@@ -171,17 +148,8 @@ int main() {
                     turnEndingTrigger = smartGame.askUserDumb();
                 }
             }
-            //making sure that we've recorded every book
-            if(smartGame.userHand.size() > 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
-                smartGame.checkForBook(1);
-            }
-            if(smartGame.computerHand.size() > 0 && smartGame.userHand.size() == 0 && smartGame.getDeckSize() == 0){
-                smartGame.checkForBook(2);
-            }
-            cout << "User: " + to_string(smartGame.getUserScore()) + "   Computer: " +  to_string(smartGame.getComputerScore()) << endl;
-            if(smartGame.userHand.size() == 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
-                modeChoice = "0";
-            }
+            smartGame.checkBookAndPrint();
+            modeChoice = "0";
         }
 
     }

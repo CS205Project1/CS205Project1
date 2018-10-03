@@ -132,6 +132,9 @@ public:
      */
     bool checkForBook(int playerNum);
 
+    void checkBookAndPrint();
+
+
     /* Save guesses and game activity to a file
      * contributors: Muhammet
      */
