@@ -134,7 +134,6 @@ bool Game::inHandCheck(string userInput){
 }
 bool Game::askComputer(int response){
     bool returnValue = false;
-    bool lying = false;
     int rank = userHand[response-1].getRank();
     //computer now "knows" user has this card
     recordToMemory(rank);
@@ -146,22 +145,18 @@ bool Game::askComputer(int response){
     if(returnValue){
         //determine if the computer will lie
         int lieRoll = rand() % 100;
+        //if the roll is below the preset lie percentage, act like
         if(lieRoll < liePercent){
-            lying = true;
+            returnValue = false;
             //for testing purposes
-            cout << "this will be a lie" << endl;
+            cout << "I'm lying" << endl;
         }
         else{
+            //for testing
             cout << "I'm telling the truth" << endl;
         }
 
     }
-
-    /*
-     * RESOLVE THE LIE HERE
-     * Player may challenge the lie
-     * penalty for challenging when there is no lie??
-     */
     return returnValue;
 }
 bool Game::askUserSmart(){
@@ -215,14 +210,14 @@ bool Game::askUserDumb(){
     //printHand(1);
     //printHand(2);
     if(!returnValue){
-        cout << getPlayerName() << " : Don't have any. Go fish!" << endl;
+        cout << getPlayerName() << ": Don't have any. Go fish!" << endl;
         cout << "Computer: Drew " << endl;
         drawCard(2, computerHand.size());
         computerFileIO(2, randGuess); //output computer guess as no match
     }
     else{
-        cout << getPlayerName() <<" : Nice guess! Here you go" << endl;
-        cout << "Computer: LOL thanks! I knew you had them muhahaha" << endl;
+        cout << getPlayerName() <<": Nice guess! Here you go." << endl;
+        cout << "Computer: Thanks for the card!" << endl;
         computerFileIO(1, randGuess); //output computer guess as match found
     }
     return returnValue;

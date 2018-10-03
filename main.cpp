@@ -24,7 +24,9 @@ int main() {
     /* =================================== <GAME> ===================================== */
 
     //Setting up the game
-    Game smartGame = Game();  //create new game
+    //Determine lie percent (user input or random??)
+    int lies = 50;
+    Game smartGame = Game(lies);  //create new game
 
     //Prompt to Choose Mode - While (not quit)
     string modeChoice;
@@ -42,9 +44,6 @@ int main() {
         cout << "2 - Dumb Dumb Mode" << endl;
         cout << ">>> ";
         std::cin >> modeChoice;
-
-        //Determine lie percent (user input or random??)
-        int lies = 50;
 
     // ------------------- SMART MODE ------------------- //
         if(modeChoice == "1"){
@@ -66,7 +65,7 @@ int main() {
                     //Check for books incase there is a book when they are dealt cards if there is a book print hand
                     bool playerHasBook = smartGame.checkForBook(1);
                     bool computerHasBook = smartGame.checkForBook(2);
-                    if (playerHasBook == true || computerHasBook == true) {
+                    if (playerHasBook || computerHasBook) {
                         cout << "Books found in hand. Hand after book has been taken out: " << endl;
                         smartGame.printHand(1);  //Print user hand
                         smartGame.printHand(2);  //Computer hand - should only be displayed when testing
