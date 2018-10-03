@@ -50,7 +50,8 @@ int main() {
             // ------------------- PLAYER TURN ------------------- //
             //Draw card if not enough cards
             while (true) {
-
+                if(smartGame.getDeckSize() == 0 && smartGame.userHand.size() == 0)
+                    break;
                 smartGame.printHand(1);  //Print user hand
                 smartGame.printHand(2);  //Computer hand - should only be displayed when testing
 
@@ -149,9 +150,17 @@ int main() {
                     }
                 }
             }
-
+            if(smartGame.userHand.size() == 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
+                modeChoice = "0";
+            }
+            //making sure that we've recorded every book
+            if(smartGame.userHand.size() > 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
+                smartGame.checkForBook(1);
+            }
+            if(smartGame.computerHand.size() > 0 && smartGame.userHand.size() == 0 && smartGame.getDeckSize() == 0){
+                smartGame.checkForBook(2);
+            }
             // ------------------- COMPUTER TURN ------------------- //
-
             bool turnEndingTrigger = true;
             while (turnEndingTrigger) {
                 // Use Smart mode (memory)
@@ -163,14 +172,19 @@ int main() {
                 }
             }
             //making sure that we've recorded every book
-            if(smartGame.userHand.size() > 0)
+            if(smartGame.userHand.size() > 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
                 smartGame.checkForBook(1);
-            if(smartGame.computerHand.size() > 0)
+            }
+            if(smartGame.computerHand.size() > 0 && smartGame.userHand.size() == 0 && smartGame.getDeckSize() == 0){
                 smartGame.checkForBook(2);
+            }
             cout << "User: " + to_string(smartGame.getUserScore()) + "   Computer: " +  to_string(smartGame.getComputerScore()) << endl;
-            modeChoice = "0";
+            if(smartGame.userHand.size() == 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
+                modeChoice = "0";
+            }
         }
 
     }
+    cout << "User: " + to_string(smartGame.getUserScore()) + "   Computer: " +  to_string(smartGame.getComputerScore()) << endl;
     return 0;
 }

@@ -239,7 +239,7 @@ bool Game::checkForBook(int playerNum){
     if(playerNum == 1) {
         //Loop through each card in hand and add matching ranks
 
-        for (int i = 0; i < 13; i++) {
+        for (int i = 1; i < 14; i++) {
             int count = 0;
             for (int j = 0; j < userHand.size(); j++) {
                 //Add one to rankCount@ current card rank (-1 because of arrays)
@@ -272,7 +272,7 @@ bool Game::checkForBook(int playerNum){
             }
         }
     }else{  //Code blow is same as the one above, but for the computer hand.
-        for (int i = 0; i < 13; i++) {
+        for (int i = 1; i < 14; i++) {
             int count = 0;
             for (int j = 0; j < computerHand.size(); j++) {
                 //Add one to rankCount@ current card rank (-1 because of arrays)
