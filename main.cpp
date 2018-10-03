@@ -56,24 +56,32 @@ int main() {
                 // ------------------- PLAYER TURN ------------------- //
                 //Draw card if not enough cards
                 while (true) {
-                    if (smartGame.userHand.size() < 7 and smartGame.getDeckSize() != 0) {
-                        smartGame.drawCard(1,smartGame.userHand.size());
-                    }
+
                     smartGame.printHand(1);  //Print user hand
                     smartGame.printHand(2);  //Computer hand - should only be displayed when testing
 
                     //Check for books incase there is a book when they are dealt cards if there is a book print hand
                     bool playerHasBook = smartGame.checkForBook(1);
-                    bool computerHasBook = smartGame.checkForBook(2);
-                    if (playerHasBook || computerHasBook) {
-                        cout << "Books found in hand. Hand after book has been taken out: " << endl;
+                    if (playerHasBook == false) {
+                        cout << "---------------------------------------------------------" << endl;
+                        cout << "Books found in " << playerUserName << "'s hand. Hand after book has been taken out: " << endl;
+                        cout << "---------------------------------------------------------" << endl;
+                        smartGame.drawCard(1,(int) smartGame.userHand.size(),0);
                         smartGame.printHand(1);  //Print user hand
+                    }
+                    bool computerHasBook = smartGame.checkForBook(2);
+                    if (computerHasBook == true){
+                        cout << "---------------------------------------------------------" << endl;
+                        cout << "Books found in Computer hand. Hand after book has been taken out: " << endl;
+                        cout << "---------------------------------------------------------" << endl;
+                        smartGame.drawCard(2,(int) smartGame.computerHand.size(),0);
                         smartGame.printHand(2);  //Computer hand - should only be displayed when testing
                     }
 
                     cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
                     cout << playerUserName << " make a guess >>> ";
                     cin >> userResponse;  //Capture user response
+
                     //Infinite loop that will break only if the userResponse is an integer.
                     while (true) {
 
@@ -132,7 +140,7 @@ int main() {
                             cout << "\nComputer: 'Go Fish! You must draw a card.'" << endl;
                             cout<<endl;
                             cout << playerUserName << ": You Drew " << endl;
-                            smartGame.drawCard(1, smartGame.userHand.size());
+                            smartGame.drawCard(1, (int) smartGame.userHand.size(),1);
                             cout<<endl;
                             if(newGame == 0) {
                                 //File output
@@ -148,8 +156,10 @@ int main() {
                 }
 
                 // ------------------- COMPUTER TURN ------------------- //
-                //Go fish if not enough cards
 
+                if(smartGame.computerHand.size() < 7 and smartGame.getDeckSize() !=0){
+                    smartGame.drawCard(2,(int) smartGame.computerHand.size(),0);
+                }
                 bool turnEndingTrigger = true;
                 while (turnEndingTrigger) {
                     turnEndingTrigger = smartGame.askUserSmart();
