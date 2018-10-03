@@ -174,7 +174,7 @@ bool Game::askUserSmart(){
                 //take the card from player
                 int cardPositionInHand = 0;
                 //Loop through computers hand to find position in hand that the card has rank
-                for(int j = 0; i < computerHand.size(); j++){
+                for(int j = 0; j < computerHand.size(); j++){
                     if(askSmartRank == computerHand[j].getRank()){
                         cardPositionInHand = j;
                     }
@@ -354,11 +354,11 @@ void Game::fileIO(Card chosenCard, string playerUserName,string matchStatus, boo
 };
 
 void Game::computerFileIO(int matchStatus, int computerGuess){
-    if(1) {
+    if(matchStatus == 1) {
         //File output
-        fileIO(computerHand[computerGuess-1], "Computer", "Match Found",false);
+        fileIO(computerHand[computerGuess], "Computer", "Match Found",false);
     }else{
-        fileIO(computerHand[computerGuess-1], "Computer", "Match Not Found",false);
+        fileIO(computerHand[computerGuess], "Computer", "Match Not Found",false);
     }
 }
 //========================================== MEMORY STUFF ==========================================//
