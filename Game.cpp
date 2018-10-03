@@ -196,8 +196,8 @@ bool Game::askUserDumb(){
     bool returnValue = false;
     //seeding rand
     srand(time(NULL));
-    //Generates a rand int between 0 and userHand size
-    int randGuess = rand() % (int) userHand.size() -1;
+    //Generates a rand int between 0 and computerHand size
+    int randGuess = rand() % computerHand.size();
 
     cout << "Computer: Asks for" << endl;
     printComputerGuessCard(randGuess); //print the guessed card (for real player to see
@@ -534,7 +534,6 @@ void Game::printDrawnCards(int playerNum, int cardIndexs){
 };
 
 void Game::printComputerGuessCard(int cardIndex){
-
     cout << " -----   " << endl;
     cout << "|     |  " << endl;
     if(computerHand[cardIndex].getRank() != 10) {
