@@ -3,7 +3,6 @@
 #include "Card.h"
 #include "Deck.h"
 #include "Game.h"
-#include <stdlib.h>
 using namespace std;
 
 // Returns true if s is a number else return false meaning it's a string
@@ -57,6 +56,10 @@ int main() {
 
                 //Check for books incase there is a book when they are dealt cards if there is a book print hand
                 bool playerHasBook = smartGame.checkForBook(1);
+                if(smartGame.userHand.size() == 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
+                    modeChoice = "0";
+                }
+
                 if (playerHasBook) {
                     cout << "---------------------------------------------------------" << endl;
                     cout << "Books found in " << playerUserName << "'s hand. Hand after book has been taken out: " << endl;
@@ -65,6 +68,9 @@ int main() {
                     smartGame.printHand(1);  //Print user hand
                 }
                 bool computerHasBook = smartGame.checkForBook(2);
+                if(smartGame.userHand.size() == 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
+                    modeChoice = "0";
+                }
                 if (computerHasBook){
                     cout << "---------------------------------------------------------" << endl;
                     cout << "Books found in Computer hand. Hand after book has been taken out: " << endl;
@@ -106,7 +112,9 @@ int main() {
                 }
                 //Convert user string input into an integer
                 int userIntResponse = stoi(userResponse);
-
+                if(smartGame.userHand.size() == 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
+                    modeChoice = "0";
+                }
                 //Checking to make sure we asked for a card in the hand!
                 while (userIntResponse > smartGame.userHand.size() || userIntResponse < 0) {
                     cout << "Input not accepted. Please enter the integer value that is below one of the cards" << endl;
@@ -134,9 +142,11 @@ int main() {
                     } else {
                         cout << "\nComputer: 'Go Fish! You must draw a card.'" << endl;
                         cout<<endl;
-                        cout << playerUserName << ": You Drew " << endl;
-                        smartGame.drawCard(1, (int) smartGame.userHand.size(),1);
-                        cout<<endl;
+                        if(!smartGame.getDeckSize() == 0) {
+                            cout << playerUserName << ": You Drew " << endl;
+                        }
+                        smartGame.drawCard(1, (int) smartGame.userHand.size(), 1);
+                        cout << endl;
                         if(newGame == 0) {
                             //File output
                             smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Not Found",true);

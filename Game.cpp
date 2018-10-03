@@ -174,7 +174,12 @@ bool Game::askUserDumb(){
     //seeding rand
     srand(time(NULL));
     //Generates a rand int between 0 and computerHand size
-    int randGuess = rand() % (int) computerHand.size();
+    int randGuess;
+    try{
+        randGuess = rand() % (int) computerHand.size();
+    }catch(exception e){
+        return false;
+    }
 
     cout << "Computer: Asks for" << endl;
     printComputerGuessCard(randGuess); //print the guessed card (for real player to see
