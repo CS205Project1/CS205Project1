@@ -132,7 +132,7 @@ bool Game::inHandCheck(string userInput){
     }
     return returnValue;
 }
-bool Game::askComputer(int response){
+bool Game::askComputer(int response){ //7
     bool returnValue = false;
     int rank = userHand[response-1].getRank();
     //computer now "knows" user has this card
@@ -174,7 +174,7 @@ bool Game::askUserSmart(){
                 //take the card from player
                 int cardPositionInHand = 0;
                 //Loop through computers hand to find position in hand that the card has rank
-                for(int j = 0; i < computerHand.size(); j++){
+                for(int j = 0; j < computerHand.size(); j++){
                     if(askSmartRank == computerHand[j].getRank()){
                         cardPositionInHand = j;
                     }
@@ -194,8 +194,8 @@ bool Game::askUserDumb(){
     bool returnValue = false;
     //seeding rand
     srand(time(NULL));
-    //Generates a rand int between 0 and userHand size
-    int randGuess = rand() % userHand.size();
+    //Generates a rand int between 0 and computerHand size
+    int randGuess = rand() % computerHand.size();
 
     cout << "Computer: Asks for" << endl;
     printComputerGuessCard(randGuess); //print the guessed card (for real player to see
@@ -231,7 +231,6 @@ void Game::takeCards(int card, int playerNum){
             if(computerHand[i].getRank() == userHand[card-1].getRank()){
                 userHand.push_back(computerHand[i]);
                 computerHand.erase(computerHand.begin()+i);
-                recordToMemory(card);
             }
         }
     }else{
@@ -354,11 +353,11 @@ void Game::fileIO(Card chosenCard, string playerUserName,string matchStatus, boo
 };
 
 void Game::computerFileIO(int matchStatus, int computerGuess){
-    if(1) {
+    if(matchStatus == 1) {
         //File output
-        fileIO(computerHand[computerGuess-1], "Computer", "Match Found",false);
+        fileIO(computerHand[computerGuess], "Computer", "Match Found",false);
     }else{
-        fileIO(computerHand[computerGuess-1], "Computer", "Match Not Found",false);
+        fileIO(computerHand[computerGuess], "Computer", "Match Not Found",false);
     }
 }
 //========================================== MEMORY STUFF ==========================================//

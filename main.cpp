@@ -34,7 +34,7 @@ int main() {
     while (modeChoice != "0") {
         string playerUserName;
         cout << "Enter a username: " ;
-        cin >> playerUserName;
+:        cin >> playerUserName;
         smartGame.setPlayerName(playerUserName);
         cout << endl;
 
