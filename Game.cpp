@@ -91,11 +91,14 @@ void Game::dealCards(int numOfCards){
 }
 
 void Game::drawCard(int playerNum, int handSize, int printOrNot){
+    if(deck.deck.size() == 0) return;
     auto it = next(deck.deck.begin(), 1); //initially draw 1 card
-    if(playerNum == 1 && !deck.deck.empty()){
+    int numCardsToDraw = 1;
+
+    if(playerNum == 1 and getDeckSize() > 0){
         move(deck.deck.begin(), it, back_inserter(userHand));
         deck.deck.erase(deck.deck.begin(), it);
-    }else if (playerNum == 2 && !deck.deck.empty()){
+    }else if (playerNum == 2 and getDeckSize() > 0){
         move(deck.deck.begin(), it, back_inserter(computerHand));
         deck.deck.erase(deck.deck.begin(), it);
     }else{
@@ -104,7 +107,7 @@ void Game::drawCard(int playerNum, int handSize, int printOrNot){
 
     //PRINT CARDS THAT HAVE BEEN DRAWN
     if(printOrNot == 1) {
-        printDrawnCards(playerNum, 1);
+        printDrawnCards(playerNum, numCardsToDraw);
     };
 
 }
@@ -162,8 +165,6 @@ bool Game::askUserSmart(){
                 deleteFromMemory(askSmartRank);
             }
         }
-        //printHand(1);
-        //printHand(2);
     }
     return returnValue;
 }
@@ -173,7 +174,7 @@ bool Game::askUserDumb(){
     //seeding rand
     srand(time(NULL));
     //Generates a rand int between 0 and computerHand size
-    int randGuess = rand() % computerHand.size();
+    int randGuess = rand() % (int) computerHand.size();
 
     cout << "Computer: Asks for" << endl;
     printComputerGuessCard(randGuess); //print the guessed card (for real player to see
@@ -253,6 +254,7 @@ bool Game::checkForBook(int playerNum){
         for (int i = 0; i < 13; i++) {
             //If a book is in the hand (4 of a kind), loop through hand and remove those cards
             if (rankCount[i] == 4) {
+                userScore++;
                 deleteFromMemory(i);
                 int cardsRemoved = 0;
 
@@ -285,6 +287,7 @@ bool Game::checkForBook(int playerNum){
         for (int i = 0; i < 13; i++) {
             //If a book is in the hand (4 of a kind), loop through hand and remove those cards
             if (rankCount[i] == 4) {
+                computerScore++;
                 deleteFromMemory(i);
                 int cardsRemoved = 0;
 
