@@ -9,16 +9,12 @@ using namespace std;
 // Returns true if s is a number else return false meaning it's a string
 bool isNumber(string s) {
     for (int i = 0; i < s.length(); i++)
-        if (isdigit(s[i]) == 0)
+        if (isdigit(s[i]) == false)
             return false;
     return true;
 }
 
 int main() {
-
-    /* ================================== <TESTING> ================================== */
-    //Moved to testing.cpp --- To use, add testing.cpp to CMakeLists.txt and remove main.cpp
-    /* ================================== </TESTING> ================================== */
 
     /* =================================== <GAME> ===================================== */
 
@@ -156,9 +152,7 @@ int main() {
             // ------------------- COMPUTER TURN ------------------- //
 
             bool turnEndingTrigger = true;
-
             while (turnEndingTrigger) {
-
                 // Use Smart mode (memory)
                 if(modeChoice == "1") {
                     turnEndingTrigger = smartGame.askUserSmart();
@@ -167,6 +161,13 @@ int main() {
                     turnEndingTrigger = smartGame.askUserDumb();
                 }
             }
+            //making sure that we've recorded every book
+            if(smartGame.userHand.size() > 0)
+                smartGame.checkForBook(1);
+            if(smartGame.computerHand.size() > 0)
+                smartGame.checkForBook(2);
+            cout << "User: " + to_string(smartGame.getUserScore()) + "   Computer: " +  to_string(smartGame.getComputerScore()) << endl;
+            modeChoice = "0";
         }
 
     }

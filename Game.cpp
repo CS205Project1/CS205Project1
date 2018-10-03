@@ -66,6 +66,8 @@ void Game::setPlayerName(string playerName) {
     Game::playerName = playerName;
 }
 
+
+
 void Game::shuffleDeck(){
     random_device rd;
     mt19937 g(rd());
@@ -89,15 +91,18 @@ void Game::dealCards(int numOfCards){
 }
 
 void Game::drawCard(int playerNum, int handSize, int printOrNot){
+    if(deck.deck.size() == 0) return;
     auto it = next(deck.deck.begin(), 1); //initially draw 1 card
     int numCardsToDraw = 1;
 
-    if(playerNum == 1 and getDeckSize() >0){
+    if(playerNum == 1 and getDeckSize() > 0){
         move(deck.deck.begin(), it, back_inserter(userHand));
         deck.deck.erase(deck.deck.begin(), it);
-    }else if (playerNum == 2 and getDeckSize() >0){
+    }else if (playerNum == 2 and getDeckSize() > 0){
         move(deck.deck.begin(), it, back_inserter(computerHand));
         deck.deck.erase(deck.deck.begin(), it);
+    }else{
+        cout << "CARD NOT DRAWN! For drawCard please specify 1 or 2 (1 = user player. 2 = computer player)" << endl;
     }
 
     //PRINT CARDS THAT HAVE BEEN DRAWN
@@ -117,7 +122,6 @@ bool Game::inHandCheck(string userInput){
     }
     return returnValue;
 }
-
 bool Game::askComputer(int response){
     bool returnValue = false;
     int rank = userHand[response-1].getRank();
@@ -141,11 +145,10 @@ bool Game::askComputer(int response){
             //for testing
             cout << "I'm telling the truth" << endl;
         }
+
     }
     return returnValue;
 }
-
-
 bool Game::askUserSmart(){
     bool returnValue = false;
     //Get rank from memory to ask for
@@ -260,6 +263,7 @@ bool Game::checkForBook(int playerNum){
         for (int i = 0; i < 13; i++) {
             //If a book is in the hand (4 of a kind), loop through hand and remove those cards
             if (rankCount[i] == 4) {
+                userScore++;
                 deleteFromMemory(i);
                 int cardsRemoved = 0;
 
@@ -292,6 +296,7 @@ bool Game::checkForBook(int playerNum){
         for (int i = 0; i < 13; i++) {
             //If a book is in the hand (4 of a kind), loop through hand and remove those cards
             if (rankCount[i] == 4) {
+                computerScore++;
                 deleteFromMemory(i);
                 int cardsRemoved = 0;
 
@@ -517,7 +522,6 @@ void Game::printDrawnCards(int playerNum, int cardIndexs){
 };
 
 void Game::printComputerGuessCard(int cardIndex){
-
     cout << " -----   " << endl;
     cout << "|     |  " << endl;
     if(computerHand[cardIndex].getRank() != 10) {
