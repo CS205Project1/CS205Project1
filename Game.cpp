@@ -232,7 +232,6 @@ void Game::takeCards(int card, int playerNum){
             if(computerHand[i].getRank() == userHand[card-1].getRank()){
                 userHand.push_back(computerHand[i]);
                 computerHand.erase(computerHand.begin()+i);
-                recordToMemory(card);
                 i = 0;
             }
         }

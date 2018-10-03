@@ -9,7 +9,7 @@ using namespace std;
 // Returns true if s is a number else return false meaning it's a string
 bool isNumber(string s) {
     for (int i = 0; i < s.length(); i++)
-        if (isdigit(s[i]) == false)
+        if (isdigit(s[i]) == 0)
             return false;
     return true;
 }
@@ -62,7 +62,7 @@ int main() {
 
                     //Check for books incase there is a book when they are dealt cards if there is a book print hand
                     bool playerHasBook = smartGame.checkForBook(1);
-                    if (playerHasBook == false) {
+                    if (playerHasBook) {
                         cout << "---------------------------------------------------------" << endl;
                         cout << "Books found in " << playerUserName << "'s hand. Hand after book has been taken out: " << endl;
                         cout << "---------------------------------------------------------" << endl;
@@ -70,7 +70,7 @@ int main() {
                         smartGame.printHand(1);  //Print user hand
                     }
                     bool computerHasBook = smartGame.checkForBook(2);
-                    if (computerHasBook == true){
+                    if (computerHasBook){
                         cout << "---------------------------------------------------------" << endl;
                         cout << "Books found in Computer hand. Hand after book has been taken out: " << endl;
                         cout << "---------------------------------------------------------" << endl;
