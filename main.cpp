@@ -14,6 +14,7 @@ bool isNumber(string s) {
     return true;
 }
 
+//contributors: JB, Muhammet, Liam
 int main() {
 
     /* ================================== <TESTING> ================================== */
@@ -34,7 +35,7 @@ int main() {
     while (modeChoice != "0") {
         string playerUserName;
         cout << "Enter a username: " ;
-:        cin >> playerUserName;
+        cin >> playerUserName;
         smartGame.setPlayerName(playerUserName);
         cout << endl;
 

@@ -7,7 +7,12 @@
 #include <iomanip>
 #include "Card.h"
 using namespace std;
-
+/*
+ * class that represents a standard deck of playing cards.
+ * has a vector of cards, and methods to deal cards
+ *
+ * author: Muhammet
+ */
 class Deck {
 protected:
     int numOfCardsDealt;

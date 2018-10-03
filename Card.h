@@ -9,7 +9,13 @@
 using namespace std;
 
 enum Suit{spades, diamonds, clubs, hearts};
-
+/*
+ * class that represents a standard playing card.
+ * has an integer for rank (should be 1-13)
+ * and a suit from an enum
+ *
+ * author: Liam
+ */
 class Card {
 private:
     int rank;

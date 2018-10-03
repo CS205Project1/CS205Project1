@@ -92,25 +92,10 @@ void Game::dealCards(int numOfCards){
 
 void Game::drawCard(int playerNum, int handSize, int printOrNot){
     auto it = next(deck.deck.begin(), 1); //initially draw 1 card
-    int numCardsToDraw = 1;
-    //if hand size for either player is less than 7, then draw until the player has 7 cards
-    if (handSize < 7 and getDeckSize() > 0) {
-        numCardsToDraw = 7-handSize;
-
-        //check to see if there is enough cards in the deck to draw. If there is player draws until they have 7
-        if(numCardsToDraw < getDeckSize()) {
-            it = next(deck.deck.begin(), numCardsToDraw);
-        //if there isn't enough cards to make the player hand size 7, then just draw all the remaining cards in the deck
-        }else{
-            it = next(deck.deck.begin(), getDeckSize());
-            numCardsToDraw = getDeckSize();
-        }
-    }
-
-    if(playerNum == 1){
+    if(playerNum == 1 && !deck.deck.empty()){
         move(deck.deck.begin(), it, back_inserter(userHand));
         deck.deck.erase(deck.deck.begin(), it);
-    }else if (playerNum == 2){
+    }else if (playerNum == 2 && !deck.deck.empty()){
         move(deck.deck.begin(), it, back_inserter(computerHand));
         deck.deck.erase(deck.deck.begin(), it);
     }else{
@@ -119,21 +104,12 @@ void Game::drawCard(int playerNum, int handSize, int printOrNot){
 
     //PRINT CARDS THAT HAVE BEEN DRAWN
     if(printOrNot == 1) {
-        printDrawnCards(playerNum, numCardsToDraw);
+        printDrawnCards(playerNum, 1);
     };
 
 }
 
-//I WILL FIX IT TO CHECK FOR A VALID RESPONSE
-bool Game::inHandCheck(string userInput){
-    bool returnValue = false; //0 - Not found
-    for(int i = 0; i < userHand.size(); i++){
-        if(userInput == userHand[i].getName()){
-            returnValue = true;
-        }
-    }
-    return returnValue;
-}
+
 bool Game::askComputer(int response){
     bool returnValue = false;
     int rank = userHand[response-1].getRank();
