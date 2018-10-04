@@ -19,7 +19,7 @@ int main() {
     /* =================================== <GAME> ===================================== */
 
     //Setting up the game
-    //Determine lie percent (user input or random??)
+    //Determine lie percent
     int lies = 10;
     Game smartGame = Game(lies);  //create new game
 
@@ -35,15 +35,20 @@ int main() {
 
         cout << "Please choose one of the following options:" << endl;
         cout << "0 - Quit" << endl;
-        cout << "1 - Smart Mode" << endl;
-        cout << "2 - Dumb Dumb Mode" << endl;
+        cout << "1 - Smart Mode (computer can remember your requests and will use them against you)" << endl;
+        cout << "2 - Dumb Dumb Mode (computer cannot remember your requests)" << endl;
         cout << ">>> ";
         std::cin >> modeChoice;
 
         // ------------------- Start Game------------------- //
         string userResponse;
         int newGame;
-        cout << "Welcome to Smart mode.  It is your turn... "<< endl;
+        if(modeChoice == "1"){
+            cout << "Welcome to smart mode.  It is your turn... "<< endl;
+        }
+        else{
+            cout << "Welcome to dumb mode. It is your turn... "<<endl;
+        }
         while(userResponse != "quit") {
 
             // ------------------- PLAYER TURN ------------------- //
