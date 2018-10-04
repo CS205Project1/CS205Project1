@@ -6,8 +6,8 @@ Game::Game() {
     userScore = 0;
     computerScore = 0;
     deck = Deck();
-    dealCards(7);
     shuffleDeck();
+    dealCards(7);
 }
 
 Game::Game(int lies){
@@ -15,8 +15,8 @@ Game::Game(int lies){
     computerScore = 0;
     liePercent = lies;
     deck = Deck();
-    dealCards(7);
     shuffleDeck();
+    dealCards(7);
 }
 
 //GETTERS
