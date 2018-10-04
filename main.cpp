@@ -20,7 +20,7 @@ int main() {
 
     //Setting up the game
     //Determine lie percent (user input or random??)
-    int lies = 50;
+    int lies = 10;
     Game smartGame = Game(lies);  //create new game
 
     //Prompt to Choose Mode - While (not quit)
