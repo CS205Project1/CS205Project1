@@ -84,6 +84,7 @@ int main() {
                 //smartGame.checkBookAndPrint();
 
                 cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
+                cout << "Enter '0' if you have no cards left." << endl;
                 cout << playerUserName << " make a guess >>> ";
                 cin >> userResponse;  //Capture user response
 
@@ -202,6 +203,14 @@ int main() {
             }
         }
 
+    }
+    if(smartGame.getUserScore() + smartGame.getComputerScore() == 13){
+        if(smartGame.getUserScore() > smartGame.getComputerScore()){
+            cout << "YOU ARE CHAMPION, AND SHALL NEVER GO FISH AGAIN" << endl;
+        }
+        else{
+            cout << "YOU HAVE LOST AND WILL FISH FOREVER" << endl;
+        }
     }
     cout << "User: " + to_string(smartGame.getUserScore()) + "   Computer: " +  to_string(smartGame.getComputerScore()) << endl;
     return 0;
