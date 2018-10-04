@@ -56,40 +56,23 @@ int main() {
             //Draw card if not enough cards
             while (true) {
                 //If the user can still play
-                if(smartGame.getDeckSize() == 0 && smartGame.userHand.size() == 0)
+                if(smartGame.getDeckSize() == 0 && smartGame.userHand.empty()) {
                     break;
-                smartGame.printHand(1);  //Print user hand
-                //smartGame.printHand(2);  //Computer hand - should only be displayed when testing
-
-                //Check for books incase there is a book when they are dealt cards if there is a book print hand
-                bool playerHasBook = smartGame.checkForBook(1);
-                if(smartGame.userHand.size() == 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
-                    modeChoice = "0";
                 }
 
-                if (playerHasBook) {
-                    cout << "---------------------------------------------------------" << endl;
-                    cout << "Books found in " << playerUserName << "'s hand. Hand after book has been taken out: " << endl;
-                    cout << "---------------------------------------------------------" << endl;
-                    smartGame.drawCard(1,(int) smartGame.userHand.size(),0);
+                if (!smartGame.userHand.empty()) {
                     smartGame.printHand(1);  //Print user hand
-                }
-                bool computerHasBook = smartGame.checkForBook(2);
-                if(smartGame.userHand.size() == 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
-                    modeChoice = "0";
-                }
-                if (computerHasBook){
-                    cout << "---------------------------------------------------------" << endl;
-                    cout << "Books found in Computer hand. Hand after book has been taken out: " << endl;
-                    cout << "---------------------------------------------------------" << endl;
-                    smartGame.drawCard(2,(int) smartGame.computerHand.size(),0);
                     //smartGame.printHand(2);  //Computer hand - should only be displayed when testing
                 }
-                //Checks book, prints them if there is any and prints the scores
-                //smartGame.checkBookAndPrint();
+
+                //Check for books in case there is a book when they are dealt cards if there is a book print hand
+                smartGame.checkBookAndPrint();
+
+                if(smartGame.userHand.empty() && smartGame.computerHand.empty() && smartGame.getDeckSize() == 0){
+                    modeChoice = "0";
+                }
 
                 cout << "For Help, enter '?' --- To Quit, enter 'quit'" << endl;
-                cout << "Enter '0' if you have no cards left." << endl;
                 cout << playerUserName << " make a guess >>> ";
                 cin >> userResponse;  //Capture user response
 
@@ -122,15 +105,15 @@ int main() {
                 }
                 //Convert user string input into an integer
                 int userIntResponse = stoi(userResponse);
-                if(smartGame.userHand.size() == 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
-                    modeChoice = "0";
-                }
+
                 //Checking to make sure we asked for a card in the hand!
-                while (userIntResponse > smartGame.userHand.size() || userIntResponse < 0) {
-                    cout << "Input not accepted. Please enter the integer value that is below one of the cards" << endl;
-                    cout << "Guess again >>> " << endl;
-                    cin >> userIntResponse;
-                };
+                if(!smartGame.userHand.empty()) {
+                    while (userIntResponse > smartGame.userHand.size() || userIntResponse < 0) {
+                        cout << "Input not accepted. Please enter the integer value that is below one of the cards" << endl;
+                        cout << "Guess again >>> " << endl;
+                        cin >> userIntResponse;
+                    }
+                }
 
                 //If user asks for a card in their hand
                 if (userIntResponse > 0 && userIntResponse <= smartGame.userHand.size()) {
@@ -152,11 +135,15 @@ int main() {
                     } else {
                         cout << "\nComputer: 'Go Fish! You must draw a card.'" << endl;
                         cout<<endl;
-                        if(!smartGame.getDeckSize() == 0) {
+
+                        if(smartGame.getDeckSize() != 0) {
                             cout << playerUserName << ": You Drew " << endl;
+                            smartGame.drawCard(1, (int) smartGame.userHand.size(), 1);
+                        }else{
+                            cout << "NO CARDS LEFT!" << endl;
                         }
-                        smartGame.drawCard(1, (int) smartGame.userHand.size(), 1);
                         cout << endl;
+
                         if(newGame == 0) {
                             //File output
                             smartGame.fileIO(smartGame.userHand[userIntResponse-1], playerUserName, "Match Not Found",true);
@@ -168,23 +155,22 @@ int main() {
                         //turn ended break loop
                         break;
                     }
+
                 }
+
             }
+
             // ------------------- COMPUTER TURN ------------------- //
             //Checking to see if the game is still playable.
-            if(smartGame.userHand.size() == 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
+            if(smartGame.userHand.empty() && smartGame.computerHand.empty() && smartGame.getDeckSize() == 0){
                 modeChoice = "0";
             }
-            //making sure that we've recorded every book
-            if(smartGame.userHand.size() > 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
-                smartGame.checkForBook(1);
-            }
-            if(smartGame.computerHand.size() > 0 && smartGame.userHand.size() == 0 && smartGame.getDeckSize() == 0){
-                smartGame.checkForBook(2);
-            }
+
             //Checking to see if the computer can still play
-            if(smartGame.getDeckSize() == 0 && smartGame.userHand.size() == 0)
+            if(smartGame.getDeckSize() == 0 && smartGame.userHand.empty()) {
                 break;
+            }
+
             bool turnEndingTrigger = true;
             while (turnEndingTrigger) {
                 // Use Smart mode (memory)
@@ -196,14 +182,9 @@ int main() {
                 }
             }
             //making sure that we've recorded every book
-            if(smartGame.userHand.size() > 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
-                smartGame.checkForBook(1);
-            }
-            if(smartGame.computerHand.size() > 0 && smartGame.userHand.size() == 0 && smartGame.getDeckSize() == 0){
-                smartGame.checkForBook(2);
-            }
-            cout << "User: " + to_string(smartGame.getUserScore()) + "   Computer: " +  to_string(smartGame.getComputerScore()) << endl;
-            if(smartGame.userHand.size() == 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
+            smartGame.checkBookAndPrint();
+
+            if(smartGame.userHand.empty() && smartGame.computerHand.empty() && smartGame.getDeckSize() == 0){
                 modeChoice = "0";
             }
         }
@@ -211,12 +192,11 @@ int main() {
     }
     if(smartGame.getUserScore() + smartGame.getComputerScore() == 13){
         if(smartGame.getUserScore() > smartGame.getComputerScore()){
-            cout << "YOU ARE CHAMPION, AND SHALL NEVER GO FISH AGAIN" << endl;
+            cout << "YOU ARE A CHAMPION, AND SHALL NEVER GO FISH AGAIN" << endl;
         }
         else{
             cout << "YOU HAVE LOST AND WILL FISH FOREVER" << endl;
         }
     }
-    cout << "User: " + to_string(smartGame.getUserScore()) + "   Computer: " +  to_string(smartGame.getComputerScore()) << endl;
     return 0;
 }

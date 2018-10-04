@@ -183,6 +183,9 @@ bool Game::askUserDumb(){
         return false;
     }
 
+    if( randGuess == 0 and computerHand.size() == 0){
+        return false;
+    }
     cout << "Computer: Asks for" << endl;
     printComputerGuessCard(randGuess); //print the guessed card (for real player to see
 
@@ -278,6 +281,8 @@ bool Game::checkForBook(int playerNum){
                 deleteFromMemory(rankCount[i]);  //Delete from memory
             }
         }
+
+
     }else{  //Code blow is same as the one above, but for the computer hand.
         for (int i = 1; i < 14; i++) {
             int count = 0;
@@ -317,30 +322,35 @@ bool Game::checkForBook(int playerNum){
 }
 
 void Game::checkBookAndPrint(){
-    //Check for books incase there is a book when they are dealt cards if there is a book print hand
-    bool playerHasBook = checkForBook(1);
-    if (playerHasBook) {
-        cout << "---------------------------------------------------------" << endl;
-        cout << "Books found in " << getPlayerName() << "'s hand. Hand after book has been taken out: " << endl;
-        cout << "---------------------------------------------------------" << endl;
-        drawCard(1,(int) userHand.size(),0);
-        printHand(1);  //Print user hand
+    //Check for books in case there is a book when they are dealt cards if there is a book print hand
+    bool playerHasBook = false;
+    if(!userHand.empty()) {
+        playerHasBook = checkForBook(1);
+        if (playerHasBook) {
+            cout << "----------------------------------------------------------------------" << endl;
+            cout << "Books found in " << getPlayerName() << "'s hand. Hand after book has been taken out: " << endl;
+            cout << "----------------------------------------------------------------------" << endl;
+            drawCard(1, (int) userHand.size(), 0);
+            printHand(1);  //Print user hand
+        }
     }
 
-    bool computerHasBook = checkForBook(2);
-    if (computerHasBook){
-        cout << "---------------------------------------------------------" << endl;
-        cout << "Books found in Computer hand. Hand after book has been taken out: " << endl;
-        cout << "---------------------------------------------------------" << endl;
-        drawCard(2,(int) computerHand.size(),0);
-        printHand(2);  //Computer hand - should only be displayed when testing
+    bool computerHasBook = false;
+    if(!computerHand.empty()) {
+        computerHasBook = checkForBook(2);
+        if (computerHasBook) {
+            cout << "----------------------------------------------------------------------" << endl;
+            cout << "Books found in Computer hand. Hand after book has been taken out: " << endl;
+            cout << "----------------------------------------------------------------------" << endl;
+            drawCard(2, (int) computerHand.size(), 0);
+            //printHand(2);  //Computer hand - should only be displayed when testing
+        }
     }
 
     if (playerHasBook || computerHasBook){
-        cout << "-------------------------------------------------" << endl;
         cout << "SCORES: " << endl;
         cout << "User: " + to_string(getUserScore()) + "   Computer: " +  to_string(getComputerScore()) << endl;
-        cout << "-------------------------------------------------" << endl;
+        cout << "----------------------------------------------------------------------" << endl;
     }
 }
 
