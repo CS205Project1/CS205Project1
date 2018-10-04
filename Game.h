@@ -9,6 +9,7 @@
 #include <random>
 #include <fstream>
 #include <ctime>
+#include <stdlib.h>
 #include "Deck.h"
 using namespace std;
 
