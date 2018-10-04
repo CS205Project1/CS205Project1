@@ -132,12 +132,12 @@ bool Game::askComputer(int response){
         if(lieRoll < liePercent){
             returnValue = false;
             //for testing purposes
-            cout << "I'm lying" << endl;
+            //cout << "I'm lying" << endl;
         }
-        else{
+        //else{
             //for testing
-            cout << "I'm telling the truth" << endl;
-        }
+            //cout << "I'm telling the truth" << endl;
+        //}
 
     }
     return returnValue;

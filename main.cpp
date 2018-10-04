@@ -50,10 +50,11 @@ int main() {
             // ------------------- PLAYER TURN ------------------- //
             //Draw card if not enough cards
             while (true) {
+                //If the user can still play
                 if(smartGame.getDeckSize() == 0 && smartGame.userHand.size() == 0)
                     break;
                 smartGame.printHand(1);  //Print user hand
-                smartGame.printHand(2);  //Computer hand - should only be displayed when testing
+                //smartGame.printHand(2);  //Computer hand - should only be displayed when testing
 
                 //Check for books incase there is a book when they are dealt cards if there is a book print hand
                 bool playerHasBook = smartGame.checkForBook(1);
@@ -77,7 +78,7 @@ int main() {
                     cout << "Books found in Computer hand. Hand after book has been taken out: " << endl;
                     cout << "---------------------------------------------------------" << endl;
                     smartGame.drawCard(2,(int) smartGame.computerHand.size(),0);
-                    smartGame.printHand(2);  //Computer hand - should only be displayed when testing
+                    //smartGame.printHand(2);  //Computer hand - should only be displayed when testing
                 }
                 //Checks book, prints them if there is any and prints the scores
                 //smartGame.checkBookAndPrint();
@@ -163,6 +164,8 @@ int main() {
                     }
                 }
             }
+            // ------------------- COMPUTER TURN ------------------- //
+            //Checking to see if the game is still playable.
             if(smartGame.userHand.size() == 0 && smartGame.computerHand.size() == 0 && smartGame.getDeckSize() == 0){
                 modeChoice = "0";
             }
@@ -173,7 +176,9 @@ int main() {
             if(smartGame.computerHand.size() > 0 && smartGame.userHand.size() == 0 && smartGame.getDeckSize() == 0){
                 smartGame.checkForBook(2);
             }
-            // ------------------- COMPUTER TURN ------------------- //
+            //Checking to see if the computer can still play
+            if(smartGame.getDeckSize() == 0 && smartGame.userHand.size() == 0)
+                break;
             bool turnEndingTrigger = true;
             while (turnEndingTrigger) {
                 // Use Smart mode (memory)
